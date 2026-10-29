@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="サムネ案1：収益化停止">
+  <defs>
+    <linearGradient id="t1bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c0a12"/><stop offset="1" stop-color="#46101b"/></linearGradient>
+    <pattern id="t1stripe" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="30" height="60" fill="#ffd21f"/><rect x="30" width="30" height="60" fill="#111"/></pattern>
+  </defs>
+  <rect width="1280" height="720" fill="url(#t1bg)"/>
+  <rect width="1280" height="34" fill="url(#t1stripe)"/>
+  <g transform="translate(80 110)">
+    <rect width="400" height="250" rx="34" fill="#e3262f" stroke="#111" stroke-width="10"/>
+    <polygon points="160,75 160,175 250,125" fill="#fff"/>
+    <path d="M40 30 L360 220 M360 30 L40 220" stroke="#111" stroke-width="30" stroke-linecap="round"/>
+    <path d="M40 30 L360 220 M360 30 L40 220" stroke="#ffd21f" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <g fill="#0b0b10" stroke="#ffd21f" stroke-width="5">
+    <circle cx="1120" cy="250" r="90"/>
+    <path d="M970 630 C970 470 1040 380 1120 380 C1200 380 1270 470 1270 630 Z"/>
+  </g>
+  <text x="70" y="560" font-size="160" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#ffe14d" stroke="#111" stroke-width="18" paint-order="stroke">収益化停止</text>
+  <text x="78" y="650" font-size="54" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#fff" stroke="#111" stroke-width="9" paint-order="stroke">AIで作った動画、アウトかも</text>
+</svg>

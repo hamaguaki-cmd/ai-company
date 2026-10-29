@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="サムネ案2：消える副業と残る副業">
+  <rect width="1280" height="720" fill="#0b1030"/>
+  <polygon points="0,0 700,0 560,720 0,720" fill="#3a3a44"/>
+  <g stroke="#1e1e26" stroke-width="6" fill="none">
+    <path d="M90 300 L150 380 L120 450 L190 520"/><path d="M380 260 L330 340 L400 410"/>
+  </g>
+  <g fill="#55555f" stroke="#1e1e26" stroke-width="6">
+    <rect x="80" y="130" width="120" height="90" rx="10" transform="rotate(-12 140 175)"/>
+    <rect x="250" y="120" width="120" height="90" rx="10" transform="rotate(9 310 165)"/>
+    <rect x="420" y="140" width="110" height="85" rx="10" transform="rotate(-20 475 182)"/>
+  </g>
+  <g fill="#19e3f0">
+    <polygon points="1000,95 1028,165 1102,168 1044,213 1065,285 1000,243 935,285 956,213 898,168 972,165"/>
+  </g>
+  <rect x="0" y="0" width="1280" height="96" fill="#0b0b10"/>
+  <text x="640" y="68" text-anchor="middle" font-size="56" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#fff">AI時代の副業ランキング</text>
+  <text x="60" y="560" font-size="200" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#9a9aa6" stroke="#111" stroke-width="16" paint-order="stroke">消える</text>
+  <text x="700" y="600" font-size="230" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#19e3f0" stroke="#05040b" stroke-width="18" paint-order="stroke">残る</text>
+</svg>

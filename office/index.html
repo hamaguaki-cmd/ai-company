@@ -6,7 +6,7 @@
 /* Layout: HUD bar; left = office floor (fluffy UMA staff at holo stations over a living skyline that follows JST time), right = dispatch terminal, profile, activity log. Stacks on phones. */
 :root{
   --bg:#05040b; --panel:rgba(12,10,26,.84); --line:#2b2650; --fg:#ece9f8; --muted:#958fb6;
-  --pink:#ff2e88; --cyan:#19e3f0; --amber:#ffc23d; --violet:#b18cff; --orange:#ff8a3d; --mint:#5cf2b0; --red:#ff4d5e;
+  --pink:#ff2e88; --cyan:#19e3f0; --amber:#ffc23d; --violet:#b18cff; --orange:#ff8a3d; --mint:#5cf2b0; --sky:#6aa8ff; --lemon:#ffe45c; --red:#ff4d5e;
   --f-display:"Chakra Petch","DotGothic16",system-ui,sans-serif;
   --f-game:"DotGothic16","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
   --f-round:"Zen Maru Gothic","Hiragino Maru Gothic ProN",system-ui,sans-serif;
@@ -41,8 +41,9 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-game);font-size:14
 .floor{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,8,24,.25),rgba(10,8,24,.78) 45%);padding:18px;min-width:0}
 .sec-h{font-family:var(--f-round);font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--fg);margin:0 0 12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .sec-h em{font-style:normal;color:var(--amber)}
-.pods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;position:relative}
-@media (max-width:660px){.pods{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.floor{container-type:inline-size;overflow:clip}
+.pods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;position:relative}
+@container (min-width:820px){.pods{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}}
 .pod{--c:var(--cyan);position:relative;border:1px solid color-mix(in srgb,var(--c) 38%,transparent);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 6%,transparent),rgba(5,4,11,.62));padding:12px 12px 10px;cursor:pointer;display:grid;gap:8px;transition:box-shadow .3s,border-color .3s;min-width:0;text-align:left;color:inherit;font:inherit}
 .pod:focus-visible{outline:2px solid var(--c);outline-offset:3px}
 .pod:hover{border-color:var(--c)}
@@ -183,11 +184,17 @@ const STAFF = [
   {id:"にんじん", task:"テーマとタイトルを考える", role:"企画立案", c:"--orange", skill:"yt-theme-planner", out:"04_themes.md",
    bio:"森から上京した背高のっぽ。キャップを後ろにかぶると企画が止まらなくなる。",
    look:{fur:"#d9773a",hatch:"#8e4a1f",rx:31,ry:42,top:"cap",eyes:"round",pupil:"#111",glow:"#ff8a3d",shoe:"#19e3f0",mouth:"grin",brows:true}},
+  {id:"のりまき", task:"最初に撮る3本の台本を書く", role:"台本ライター", c:"--sky", skill:"yt-script-writer", out:"05_scripts.md",
+   bio:"巻物のように台本をくるくる書き上げる職人。はちまきを締めると、冒頭30秒のセリフが止まらない。",
+   look:{fur:"#2f4a3a",hatch:"#56755f",rim:true,rx:32,ry:36,top:"hachimaki",eyes:"round",pupil:"#111",glow:"#6aa8ff",shoe:"#f5f2ea",mouth:"o"}},
+  {id:"マカロン", task:"思わず押したくなるサムネを作る", role:"サムネイルデザイナー", c:"--lemon", skill:"yt-thumbnail-designer", out:"thumbnails/",
+   bio:"パステル色の洋菓子UMA。ベレー帽と筆を持つと、どんな企画も一枚の絵にしてしまう。",
+   look:{fur:"#ffc7dc",hatch:"#e58fb1",rx:33,ry:30,top:"beret",eyes:"round",pupil:"#5a2a6a",glow:"#ffe45c",shoe:"#6aa8ff",mouth:"w"}},
   {id:"えだまめ", task:"見やすいレポートにまとめる", role:"資料作成", c:"--mint", skill:"yt-report-designer", out:"report.html",
    bio:"宇宙から落ちてきたミント色のちびUMA。触角からネオンを出してレポートを光らせる。",
    look:{fur:"#a6f5d3",hatch:"#4fb48c",rx:30,ry:29,top:"antennae",eyes:"alien",glow:"#5cf2b0",shoe:"#ff2e88",mouth:"o"}}
 ];
-const FLOW = {マシュマロ:["うに"],いちご:["うに"],ぶどう:["うに"],にんじん:["マシュマロ","いちご","ぶどう"],えだまめ:["にんじん"]};
+const FLOW = {マシュマロ:["うに"],いちご:["うに"],ぶどう:["うに"],にんじん:["マシュマロ","いちご","ぶどう"],のりまき:["にんじん"],マカロン:["にんじん"],えだまめ:["のりまき","マカロン"]};
 const SAMPLE_REPORT = "https://claude.ai/artifact/JK5TSN2mQb2ewPXuQ89HPw";
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -202,9 +209,11 @@ const CHAT={
   いちご:["あのサムネ、文字多すぎ","競合チャンネルを巡回中","狙い目みっけ"],
   ぶどう:["みんなの悩みを聞きたいな","ねむい…でも聞いてる","刺さる言葉をメモ中"],
   にんじん:["企画ネタ、ストック30本","ひらめいた！…気がする","タイトル考え中"],
+  のりまき:["いいフック思いついた","1分300字が目安","セリフを声に出して確認中"],
+  マカロン:["この色、映えるかな","文字は7字までが勝負","右下は空けておかないと"],
   えだまめ:["ネオンの色を調整中","フォントを見比べ中","レポートをピカピカに"]
 };
-const PANEL={うに:"チームの様子",マシュマロ:"トレンド",いちご:"競合チェック",ぶどう:"視聴者の気持ち",にんじん:"企画ボード",えだまめ:"レポート"};
+const PANEL={うに:"チームの様子",マシュマロ:"トレンド",いちご:"競合チェック",ぶどう:"視聴者の気持ち",にんじん:"企画ボード",のりまき:"台本",マカロン:"サムネ",えだまめ:"レポート"};
 function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function fluff(g,cx,cy,rx,ry,n,puff,R,fill,lw){
   g.beginPath();
@@ -235,6 +244,7 @@ function poseOf(p,t){
     if(p.id==="うに")return Math.floor(lt/2600)%2?"point":"type";
     if(p.id==="にんじん")return Math.floor(lt/1800)%3===2?"point":"type";
     if(p.id==="マシュマロ")return Math.floor(lt/3000)%3===2?"point":"type";
+    if(p.id==="マカロン")return Math.floor(lt/2200)%2?"point":"type";
     return "type";
   }
   if(p.state==="done")return "hold";
@@ -285,7 +295,7 @@ function drawPanel(g,p,t,cx,W){
 }
 const CONTENT={
   うに(g,x,y,w,h,lt,active,c){
-    const cx=x+w/2, cy=y+h/2, ids=["マシュマロ","いちご","ぶどう","にんじん","えだまめ"];
+    const cx=x+w/2, cy=y+h/2, ids=["マシュマロ","いちご","ぶどう","にんじん","のりまき","マカロン","えだまめ"];
     ids.forEach((id,i)=>{
       const a=-Math.PI/2+i/ids.length*Math.PI*2, nx=cx+Math.cos(a)*Math.min(w*.38,58), ny=cy+Math.sin(a)*h*.38, q=S(id);
       const col=q.look.glow, on=q.state==="working";
@@ -339,6 +349,30 @@ const CONTENT={
       g.strokeStyle="rgba(22,19,31,.7)"; g.lineWidth=1.2; g.beginPath(); g.moveTo(-nw/2+4,-2); g.quadraticCurveTo(0,-6,nw/2-5,-1); g.moveTo(-nw/2+4,4); g.lineTo(nw/4,4); g.stroke();
       g.restore();
     }
+  },
+  のりまき(g,x,y,w,h,lt,active,c){
+    const pw=Math.min(150,w*.8), px=x+w/2-pw/2;
+    g.fillStyle="#f5f2ea"; g.fillRect(px,y,pw,h);
+    g.fillStyle="#2f4a3a"; g.fillRect(px-6,y,6,h); g.fillRect(px+pw,y,6,h);
+    const rows=7, shown=active?Math.floor(lt/380)%(rows+4):rows;
+    for(let i=0;i<Math.min(rows,shown);i++){
+      const ry=y+4+i*((h-6)/rows);
+      g.fillStyle=i===0?"#ff2e88":i<3?"#6aa8ff":"#8d88a8";
+      g.fillRect(px+6,ry,i<3?8:6,2.5);
+      g.fillStyle=i<3?"#3a4a8a":"#8d88a8"; g.fillRect(px+18,ry,(pw-26)*(.5+((i*17)%5)/10),2.5);
+    }
+    if(active&&shown<rows){const ry=y+4+shown*((h-6)/rows); g.fillStyle=c; g.fillRect(px+18+((lt/30)%(pw-30)),ry-1,2,5);}
+  },
+  マカロン(g,x,y,w,h,lt,active,c){
+    const tw=Math.min(96,(w-30)), th=tw*9/16, tx=x+4, ty=y+(h-th)/2;
+    g.fillStyle="#1c0a12"; g.fillRect(tx,ty,tw,th);
+    const step=active?Math.floor(lt/600)%6:5;
+    if(step>=1){g.fillStyle="#e3262f"; g.fillRect(tx+6,ty+6,tw*.3,th*.3);}
+    if(step>=2){g.fillStyle="#ffe14d"; g.fillRect(tx+6,ty+th*.55,tw*.6,th*.2);}
+    if(step>=3){g.fillStyle="#fff"; g.fillRect(tx+6,ty+th*.8,tw*.45,th*.08);}
+    if(step>=4){g.fillStyle="#0b0b10"; g.strokeStyle="#ffe14d"; g.lineWidth=1; g.beginPath(); g.arc(tx+tw*.8,ty+th*.35,th*.14,0,Math.PI*2); g.fill(); g.stroke();}
+    ["#ff2e88","#ffe45c","#19e3f0","#5cf2b0"].forEach((col,i)=>{g.fillStyle=col; g.beginPath(); g.arc(x+w-12-(i%2)*14,y+10+Math.floor(i/2)*16,5,0,Math.PI*2); g.fill();});
+    if(active){const bx=tx+tw*(.2+.6*Math.abs(Math.sin(lt/500))), by=ty+th*(.3+.4*Math.abs(Math.cos(lt/700))); g.fillStyle=c; g.beginPath(); g.arc(bx,by,2.5,0,Math.PI*2); g.fill();}
   },
   えだまめ(g,x,y,w,h,lt,active,c){
     const pw=Math.min(70,w*.5), px=x+w/2-pw/2;
@@ -427,6 +461,11 @@ function drawCreature(g,p,t,cx,floor,pose){
     g.strokeStyle=INK; g.lineWidth=2.4; g.beginPath(); g.arc(mx,my,7,0,Math.PI*2); g.fillStyle="rgba(25,227,240,.3)"; g.fill(); g.stroke();
     g.beginPath(); g.moveTo(mx+5,my+5); g.lineTo(mx+11,my+11); g.stroke();
   }
+  if(p.state==="working"&&p.id==="マカロン"){
+    const bx=cx+rx*1.15, by=cy-ry*1.25+(reduce?0:Math.sin(t/200)*3);
+    g.strokeStyle=INK; g.lineWidth=3; g.beginPath(); g.moveTo(cx+rx*.9,cy-ry*.9); g.lineTo(bx,by); g.stroke();
+    g.fillStyle="#ff2e88"; g.beginPath(); g.ellipse(bx+2,by-4,3.5,6,.6,0,Math.PI*2); g.fill(); g.lineWidth=1.6; g.stroke();
+  }
   if(p.state==="done"){g.fillStyle=L.glow; [[-rx-6,-ry+6],[rx+4,-ry+12],[rx-2,-ry-6]].forEach(([dx,dy],i)=>{const s=reduce?3:2.5+Math.sin(t/200+i)*1.2; star(g,cx+dx,cy+dy,s);});}
 }
 function drawTop(g,L,cx,cy,rx,ry,R,t,working){
@@ -448,6 +487,15 @@ function drawTop(g,L,cx,cy,rx,ry,R,t,working){
     g.beginPath(); g.ellipse(cx,top+8,20,11,0,Math.PI,0); g.closePath(); g.fillStyle="#19e3f0"; g.fill(); g.stroke();
     g.beginPath(); g.moveTo(cx-18,top+8); g.quadraticCurveTo(cx-32,top+6,cx-34,top+11); g.lineTo(cx-16,top+11); g.closePath(); g.fillStyle="#0e9fb0"; g.fill(); g.stroke();
     g.fillStyle=INK; g.font="bold 9px 'Share Tech Mono',monospace"; g.textBaseline="alphabetic"; g.fillText("J",cx-2,top+4);
+  }else if(L.top==="hachimaki"){
+    g.beginPath(); g.ellipse(cx,top+14,rx*.92,7,0,Math.PI*1.05,Math.PI*1.95); g.lineWidth=9; g.strokeStyle="#f5f2ea"; g.stroke();
+    g.lineWidth=2.4; g.strokeStyle=INK;
+    g.fillStyle="#e3262f"; g.beginPath(); g.arc(cx,top+9,4,0,Math.PI*2); g.fill();
+    const fl=reduce?0:Math.sin(t/(working?120:400))*3;
+    g.fillStyle="#f5f2ea"; [[1,0],[1,1]].forEach(([s,k])=>{g.beginPath(); g.moveTo(cx+rx*.8,top+12); g.lineTo(cx+rx*.8+16,top+6+k*10+fl); g.lineTo(cx+rx*.8+14,top+12+k*10+fl); g.closePath(); g.fill(); g.stroke();});
+  }else if(L.top==="beret"){
+    g.beginPath(); g.ellipse(cx-4,top+4,24,10,-.15,0,Math.PI*2); g.fillStyle="#ffe45c"; g.fill(); g.stroke();
+    g.beginPath(); g.moveTo(cx-4,top-6); g.lineTo(cx-2,top-12); g.stroke();
   }else if(L.top==="antennae"){
     [-1,1].forEach((s,i)=>{const wob=reduce?0:Math.sin(t/(working?120:260)+i)*3; g.beginPath(); g.moveTo(cx+s*7,top+5); g.quadraticCurveTo(cx+s*12,top-10,cx+s*15+wob,top-18); g.stroke();
       g.beginPath(); g.arc(cx+s*15+wob,top-20,4.5,0,Math.PI*2); g.fillStyle=L.glow; g.shadowColor=L.glow; g.shadowBlur=working?14:6; g.fill(); g.shadowBlur=0; g.lineWidth=2; g.stroke(); g.lineWidth=2.4;});
@@ -508,7 +556,7 @@ STAFF.forEach((p,idx)=>{
     lines:["お仕事待ち"],workT0:0,idle:{pose:"idle",until:0}});
 });
 const hire=document.createElement("div"); hire.className="pod hire";
-hire.innerHTML=`<span class="name">＋ 採用枠</span><span class="role">次のAI社員を募集中<br>（例：台本ライター、サムネデザイナー）</span>`;
+hire.innerHTML=`<span class="name">＋ 採用枠</span><span class="role">次のAI社員を募集中<br>（例：動画編集、SNS運用）</span>`;
 podsEl.appendChild(hire);
 
 function pushScreen(p,txt){p.lines.push(txt); if(p.lines.length>6)p.lines.shift();}
@@ -619,6 +667,9 @@ async function demo(genre,target){
   A("にんじん","working","テーマ企画を開始"); await wait(1200);
   for(const [i,d] of ["テーマを10案考えています","再生回数を見積もり中","タイトル20案とサムネ案が完成","企画書をまとめています"].entries()){T("にんじん",d); S("にんじん").bar.style.width=(i+1)*24+"%"; await wait(1100);}
   A("にんじん","done","テーマ企画完了"); await wait(700);
+  A("のりまき","working","台本の執筆を開始"); A("マカロン","working","サムネのデザインを開始"); await wait(1200);
+  for(const [i,[a,d]] of [["のりまき","冒頭30秒のセリフを書いています"],["マカロン","配色を3パターン試し中"],["のりまき","章立てを組んでいます"],["マカロン","文字を7字以内に削っています"],["のりまき","台本3本が完成"],["マカロン","サムネ3枚が完成"]].entries()){T(a,d); S(a).bar.style.width=Math.min(95,(i+2)*15)+"%"; await wait(1000);}
+  A("のりまき","done","台本3本が完成"); await wait(300); A("マカロン","done","サムネ3枚が完成"); await wait(700);
   A("えだまめ","working","レポート作成を開始"); await wait(1000);
   for(const d of ["ネオンを点灯中","レポートを仕上げ中"]){T("えだまめ",d); await wait(1100);}
   A("えだまめ","done","レポート納品"); await wait(700);

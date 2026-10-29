@@ -72,7 +72,8 @@ let job = null;
 // Friendly, code-free descriptions for the office screen. Returns null for steps not worth showing.
 const SKILL_STAFF = {
   "yt-trend-scout": "マシュマロ", "yt-competitor-analyst": "いちご", "yt-audience-profiler": "ぶどう",
-  "yt-theme-planner": "にんじん", "yt-report-designer": "えだまめ",
+  "yt-theme-planner": "にんじん", "yt-script-writer": "のりまき", "yt-thumbnail-designer": "マカロン",
+  "yt-report-designer": "えだまめ",
 };
 function describeTool(block) {
   const i = block.input || {};

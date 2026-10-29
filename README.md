@@ -1,20 +1,22 @@
 # NEON-RESEARCH DIV. — サイバーパンク風 AI会社
 
-ジャンルとターゲットを入れるだけで、AI社員6名が YouTube のテーマリサーチを行い、HTMLレポートを納品します。
+ジャンルとターゲットを入れるだけで、AI社員8名が YouTube のテーマリサーチを行い、台本とサムネ案付きのHTMLレポートを納品します。
 
 ## 構成
 ```
-.claude/skills/        AI社員（スキル）6名
+.claude/skills/        AI社員（スキル）8名
   yt-research-director   うに  指令室長（統括）
   yt-trend-scout         マシュマロ  トレンド調査
   yt-competitor-analyst  いちご   競合分析
   yt-audience-profiler   ぶどう  ターゲット分析
   yt-theme-planner       にんじん   企画立案
+  yt-script-writer       のりまき 台本ライター
+  yt-thumbnail-designer  マカロン サムネイルデザイナー
   yt-report-designer     えだまめ 資料作成（assets/report_example.html がデザイン見本）
 office/index.html      オフィス画面（サイバーパンク調、時間帯で昼夜が変わる）
 server/index.mjs       Claude Agent SDK でAI社員を動かすサーバー
 bin/log.sh             社員の作業ログを state/activity.jsonl に書き込む
-research/<slug>/       案件ごとの成果物（00〜04のMarkdown と report.html）
+research/<slug>/       案件ごとの成果物（00〜06のMarkdown、thumbnails/、report.html）
 MANUAL.md              業務マニュアル
 ```
 

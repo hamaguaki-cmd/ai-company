@@ -60,6 +60,16 @@ td.num{font-family:var(--f-mono);color:var(--amber);white-space:nowrap;font-vari
 .src a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted var(--cyan)}
 .src a:focus-visible,.src a:hover{color:var(--pink);border-color:var(--pink);outline:none}
 .note{font-size:13px;color:var(--muted)}
+.script{border:1px solid var(--line);padding:16px 18px;display:grid;gap:10px;background:rgba(255,255,255,.015);min-width:0}
+.script h3{margin:0;color:var(--amber);font-size:16px}
+.script .meta2{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.hook{border-left:3px solid var(--pink);padding:8px 14px;background:rgba(255,46,136,.06);font-size:14px;line-height:1.9}
+.hook b{display:block;font-family:var(--f-mono);font-size:11px;color:var(--pink);letter-spacing:.1em;font-weight:400}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.thumbs figure{margin:0;display:grid;gap:8px;min-width:0}
+.thumbs svg{width:100%;height:auto;display:block;border:1px solid var(--line)}
+.thumbs figcaption{font-size:13px;display:grid;gap:4px}
+.thumbs figcaption b{color:var(--cyan)}
 footer{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:center}
 </style>
 
@@ -73,7 +83,7 @@ footer{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:ce
     <span>想定規模 <b>登録者1万人前後</b></span>
   </div>
   <div class="staff">
-    <span class="chip"><i>うに</i> 指令室長</span><span class="chip"><i>マシュマロ</i> トレンド調査</span><span class="chip"><i>いちご</i> 競合分析</span><span class="chip"><i>ぶどう</i> ターゲット分析</span><span class="chip"><i>にんじん</i> 企画立案</span><span class="chip"><i>えだまめ</i> 資料作成</span>
+    <span class="chip"><i>うに</i> 指令室長</span><span class="chip"><i>マシュマロ</i> トレンド調査</span><span class="chip"><i>いちご</i> 競合分析</span><span class="chip"><i>ぶどう</i> ターゲット分析</span><span class="chip"><i>にんじん</i> 企画立案</span><span class="chip"><i>のりまき</i> 台本</span><span class="chip"><i>マカロン</i> サムネ</span><span class="chip"><i>えだまめ</i> 資料作成</span>
   </div>
 </header>
 
@@ -209,9 +219,99 @@ footer{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:ce
 </section>
 
 <section class="panel">
+  <div class="ph"><span>SCRIPTS ×3</span><span class="who">担当：のりまき</span></div>
+  <div class="pb">
+    <h2><small>06</small>台本（最初に撮る3本）</h2>
+    <p class="note">冒頭30秒はセリフの全文です。章ごとの細かいセリフ例や、概要欄・撮影メモは <code>05_scripts.md</code> にあります。</p>
+    <div class="script">
+      <h3>台本A｜#2 AI量産チャンネルはもう稼げない？</h3>
+      <div class="meta2">タイトル：【警告】AIで作った動画、収益化停止されます｜YouTube新ルールで稼げる人・稼げない人　／　想定尺 12分</div>
+      <div class="hook"><b>OPENING 0:00–0:30</b>「AIで動画を量産して月10万円」。最近、こういう話をよく見かけますよね。でも実は、YouTubeは2025年7月に収益化のルールを変えていて、そのやり方だと収益化が止まる可能性があります。この動画では、どんなAI動画がアウトで、どんな使い方ならセーフなのかを、公式のポリシーをもとに整理しました。僕も会社員として副業でYouTubeをやっているので、同じ立場の目線で話します。最後に、投稿前に使えるチェックリストも配ります。</div>
+      <div class="tbl"><table><thead><tr><th>時間</th><th>章</th><th>要点</th></tr></thead><tbody><tr><td class="num">0:30</td><td>導入</td><td>この動画でわかること3つ</td></tr><tr><td class="num">1:30</td><td>何が変わった？</td><td>「量産型」が「一般的、または繰り返しの多いコンテンツ」に。AIペルソナも対象外に</td></tr><tr><td class="num">4:00</td><td>アウトになりやすい3パターン</td><td>クリップだけの動画／定型画像＋自動音声／低品質の大量投稿</td></tr><tr><td class="num">7:00</td><td>セーフな使い方</td><td>自分の解説・体験・視点を入れる。AIは補助。必要に応じて開示ラベル</td></tr><tr><td class="num">10:00</td><td>投稿前チェックリスト</td><td>独自の解説・体験・編集の手間・開示ラベル・出典の5項目</td></tr><tr><td class="num">11:30</td><td>まとめ・CTA</td><td>次は「AIエージェントに副業を丸投げ」の動画へ</td></tr></tbody></table></div>
+    </div>
+    <div class="script">
+      <h3>台本B｜#3 AIで消える副業・残る副業ランキング</h3>
+      <div class="meta2">タイトル：その副業、来年なくなります。AI時代に残る副業TOP5　／　想定尺 10分</div>
+      <div class="hook"><b>OPENING 0:00–0:30</b>副業をしている会社員の約半数が、「AIのせいで自分のスキルの価値が下がる」と不安を感じているそうです。実際、副業で一番多い「データ入力」は、AIが得意な仕事そのものです。そこで今日は、AI時代に消えていく副業と、むしろ価値が上がる副業を、ランキング形式で紹介します。今の副業を続けるべきか迷っている人は、最後まで見てください。</div>
+      <div class="tbl"><table><thead><tr><th>時間</th><th>章</th><th>要点</th></tr></thead><tbody><tr><td class="num">0:30</td><td>判定基準</td><td>「AIが代わりにできるか」「人の信頼が必要か」の2軸</td></tr><tr><td class="num">1:30</td><td>消える副業 TOP3</td><td>データ入力、単純な文字起こし、テンプレートのライティング</td></tr><tr><td class="num">4:30</td><td>残る副業 TOP5</td><td>AI活用の代行・指導、顔や声を出す発信、対面サービス、専門知識×AI、企画やディレクション</td></tr><tr><td class="num">8:00</td><td>今日からやること</td><td>今の副業にAIを足す3ステップ</td></tr><tr><td class="num">9:30</td><td>まとめ・CTA</td><td>月5万のロードマップ動画へ</td></tr></tbody></table></div>
+    </div>
+    <div class="script">
+      <h3>台本C｜#1 AIエージェントに副業を丸投げ検証</h3>
+      <div class="meta2">タイトル：人間は何もしない。AIエージェントに副業を1ヶ月任せたら、いくら稼げる？　／　想定尺 15分</div>
+      <div class="hook"><b>OPENING 0:00–0:30</b>今回は、僕は何もしません。副業の仕事探しから納品まで、全部AIエージェントに任せてみました。期間は1ヶ月。使ったお金も、かかった時間も、稼げた金額も全部公開します。結論から言うと、思っていたのとはまったく違う結果になりました。AIに仕事を任せたい人ほど、知っておいてほしい落とし穴があります。</div>
+      <div class="tbl"><table><thead><tr><th>時間</th><th>章</th><th>要点</th></tr></thead><tbody><tr><td class="num">0:30</td><td>ルール説明</td><td>人間は最終確認だけ。予算と使うツールを提示</td></tr><tr><td class="num">2:00</td><td>1週目</td><td>準備と最初の案件探し。失敗も見せる</td></tr><tr><td class="num">5:00</td><td>2〜3週目</td><td>改善と初受注。AIの得意・苦手が見えてくる</td></tr><tr><td class="num">9:00</td><td>4週目と結果発表</td><td>収益・費用・作業時間の内訳</td></tr><tr><td class="num">12:00</td><td>わかったこと</td><td>任せていい部分と人がやる部分</td></tr><tr><td class="num">14:00</td><td>まとめ・CTA</td><td>シリーズ化の予告</td></tr></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>THUMBNAILS ×3</span><span class="who">担当：マカロン</span></div>
+  <div class="pb">
+    <h2><small>07</small>サムネイル案</h2>
+    <p class="note">人物のシルエットは、本人の写真に差し替える位置です。右下は再生時間の表示と重ならないように空けてあります。</p>
+    <div class="thumbs"><figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="サムネ案1：収益化停止">
+  <defs>
+    <linearGradient id="t1bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c0a12"/><stop offset="1" stop-color="#46101b"/></linearGradient>
+    <pattern id="t1stripe" width="60" height="60" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="30" height="60" fill="#ffd21f"/><rect x="30" width="30" height="60" fill="#111"/></pattern>
+  </defs>
+  <rect width="1280" height="720" fill="url(#t1bg)"/>
+  <rect width="1280" height="34" fill="url(#t1stripe)"/>
+  <g transform="translate(80 110)">
+    <rect width="400" height="250" rx="34" fill="#e3262f" stroke="#111" stroke-width="10"/>
+    <polygon points="160,75 160,175 250,125" fill="#fff"/>
+    <path d="M40 30 L360 220 M360 30 L40 220" stroke="#111" stroke-width="30" stroke-linecap="round"/>
+    <path d="M40 30 L360 220 M360 30 L40 220" stroke="#ffd21f" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <g fill="#0b0b10" stroke="#ffd21f" stroke-width="5">
+    <circle cx="1120" cy="250" r="90"/>
+    <path d="M970 630 C970 470 1040 380 1120 380 C1200 380 1270 470 1270 630 Z"/>
+  </g>
+  <text x="70" y="560" font-size="160" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#ffe14d" stroke="#111" stroke-width="18" paint-order="stroke">収益化停止</text>
+  <text x="78" y="650" font-size="54" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#fff" stroke="#111" stroke-width="9" paint-order="stroke">AIで作った動画、アウトかも</text>
+</svg>
+<figcaption><b>#2 収益化停止</b>警告色と×印で「止められる」と一目で伝える。A/B案：「それアウトです」</figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="サムネ案2：消える副業と残る副業">
+  <rect width="1280" height="720" fill="#0b1030"/>
+  <polygon points="0,0 700,0 560,720 0,720" fill="#3a3a44"/>
+  <g stroke="#1e1e26" stroke-width="6" fill="none">
+    <path d="M90 300 L150 380 L120 450 L190 520"/><path d="M380 260 L330 340 L400 410"/>
+  </g>
+  <g fill="#55555f" stroke="#1e1e26" stroke-width="6">
+    <rect x="80" y="130" width="120" height="90" rx="10" transform="rotate(-12 140 175)"/>
+    <rect x="250" y="120" width="120" height="90" rx="10" transform="rotate(9 310 165)"/>
+    <rect x="420" y="140" width="110" height="85" rx="10" transform="rotate(-20 475 182)"/>
+  </g>
+  <g fill="#19e3f0">
+    <polygon points="1000,95 1028,165 1102,168 1044,213 1065,285 1000,243 935,285 956,213 898,168 972,165"/>
+  </g>
+  <rect x="0" y="0" width="1280" height="96" fill="#0b0b10"/>
+  <text x="640" y="68" text-anchor="middle" font-size="56" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#fff">AI時代の副業ランキング</text>
+  <text x="60" y="560" font-size="200" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#9a9aa6" stroke="#111" stroke-width="16" paint-order="stroke">消える</text>
+  <text x="700" y="600" font-size="230" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#19e3f0" stroke="#05040b" stroke-width="18" paint-order="stroke">残る</text>
+</svg>
+<figcaption><b>#3 消える／残る</b>崩れた灰色とネオンの対比で結果を見たくさせる。A/B案：右側を金色に</figcaption></figure><figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-label="サムネ案3：放置で何円">
+  <defs><pattern id="t3grid" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M64 0 H0 V64" fill="none" stroke="#1d2a6b" stroke-width="2"/></pattern></defs>
+  <rect width="1280" height="720" fill="#0a1030"/>
+  <rect width="1280" height="720" fill="url(#t3grid)"/>
+  <rect x="70" y="60" width="600" height="76" rx="38" fill="#ff2e88"/>
+  <text x="370" y="114" text-anchor="middle" font-size="44" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#fff">AIエージェント1ヶ月検証</text>
+  <g transform="translate(930 120) scale(.9)">
+    <rect x="0" y="0" width="300" height="230" rx="46" fill="#dfe6f5" stroke="#111" stroke-width="10"/>
+    <rect x="40" y="60" width="220" height="90" rx="40" fill="#111"/>
+    <circle cx="105" cy="105" r="22" fill="#19e3f0"/><circle cx="195" cy="105" r="22" fill="#19e3f0"/>
+    <path d="M150 0 V-50" stroke="#111" stroke-width="10"/><circle cx="150" cy="-60" r="18" fill="#ff2e88" stroke="#111" stroke-width="8"/>
+    <rect x="-20" y="260" width="340" height="150" rx="20" fill="#2a3470" stroke="#111" stroke-width="10"/>
+  </g>
+  <text x="70" y="330" font-size="130" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#fff" stroke="#111" stroke-width="14" paint-order="stroke">放置で</text>
+  <text x="62" y="580" font-size="196" font-family="'Zen Kaku Gothic New','Hiragino Sans','Noto Sans JP',sans-serif" font-weight="900" fill="#ffe14d" stroke="#111" stroke-width="20" paint-order="stroke">¥？？？</text>
+</svg>
+<figcaption><b>#1 放置で¥？？？</b>金額を伏せて好奇心を引く。A/B案：「寝てる間に」</figcaption></figure></div>
+  </div>
+</section>
+
+<section class="panel">
   <div class="ph"><span>RISK / COMPLIANCE</span><span class="who">担当：マシュマロ</span></div>
   <div class="pb">
-    <h2><small>06</small>注意点・リスク</h2>
+    <h2><small>08</small>注意点・リスク</h2>
     <ul class="warn">
       <li>テキストから生成したクリップだけの動画や、定型の画像に自動音声を乗せただけの動画は、収益化を止められるおそれがあります。独自の解説と視点を必ず入れてください。</li>
       <li>AIで作った音声や映像を使う場合は、開示ラベルが必要になることがあります。</li>
