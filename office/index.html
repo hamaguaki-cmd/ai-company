@@ -23,13 +23,13 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-game);font-size:14
 .hud{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;border:1px solid var(--line);background:var(--panel);padding:10px 16px;backdrop-filter:blur(5px)}
 .logo{font-family:var(--f-display);font-weight:700;font-size:clamp(18px,3vw,26px);letter-spacing:.06em;text-shadow:0 0 10px var(--pink),0 0 24px rgba(255,46,136,.5)}
 .logo span{color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
-.logo small{display:block;font-family:var(--f-mono);font-size:11px;font-weight:400;letter-spacing:.2em;color:var(--muted);text-shadow:none}
-.hudr{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.logo small{display:block;font-family:var(--f-round);font-size:12px;font-weight:500;letter-spacing:.1em;color:var(--muted);text-shadow:none}
+.hudr{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--f-round);font-size:13px;color:var(--muted)}
 .hudr b{color:var(--cyan);font-weight:400;font-variant-numeric:tabular-nums}
 .mode{padding:2px 8px;border:1px solid var(--muted);color:var(--muted)}
 .mode.live{border-color:var(--mint);color:var(--bg);background:var(--mint);box-shadow:0 0 12px rgba(92,242,176,.6)}
 .tod{display:flex;border:1px solid var(--line)}
-.tod button{font-family:var(--f-mono);font-size:11px;color:var(--muted);background:transparent;border:0;padding:3px 8px;cursor:pointer}
+.tod button{font-family:var(--f-round);font-size:12px;color:var(--muted);background:transparent;border:0;padding:3px 8px;cursor:pointer}
 .tod button[aria-pressed="true"]{color:var(--bg);background:var(--amber)}
 .tod button:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
 #shift{color:var(--amber)}
@@ -39,7 +39,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-game);font-size:14
 
 /* Floor */
 .floor{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,8,24,.25),rgba(10,8,24,.78) 45%);padding:18px;min-width:0}
-.sec-h{font-family:var(--f-mono);font-weight:400;font-size:12px;letter-spacing:.18em;color:var(--muted);margin:0 0 12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sec-h{font-family:var(--f-round);font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--fg);margin:0 0 12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .sec-h em{font-style:normal;color:var(--amber)}
 .pods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;position:relative}
 @media (max-width:660px){.pods{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
@@ -51,10 +51,9 @@ body{background:var(--bg);color:var(--fg);font-family:var(--f-game);font-size:14
 .pod.boss{grid-column:1/-1;grid-template-columns:minmax(240px,300px) 1fr;align-items:center;column-gap:18px}
 @media (max-width:660px){.pod.boss{grid-template-columns:1fr}}
 .tag{display:flex;justify-content:space-between;align-items:center;gap:6px}
-.name{font-family:var(--f-display);font-weight:700;font-size:18px;letter-spacing:.08em;color:var(--c);text-shadow:0 0 8px var(--c)}
-.role{font-size:12px;color:var(--muted)}
-.role span{font-family:var(--f-mono)}
-.st{font-family:var(--f-mono);font-size:11px;padding:1px 7px;border:1px solid var(--muted);color:var(--muted);white-space:nowrap}
+.name{font-family:var(--f-round);font-weight:700;font-size:19px;letter-spacing:.02em;color:var(--c);text-shadow:0 0 8px var(--c)}
+.role{font-family:var(--f-round);font-size:12px;color:var(--muted)}
+.st{font-family:var(--f-round);font-size:11px;font-weight:700;padding:1px 7px;border:1px solid var(--muted);color:var(--muted);white-space:nowrap}
 .pod.working .st{border-color:var(--c);color:var(--bg);background:var(--c);animation:blink 1s steps(2) infinite}
 .pod.done .st{border-color:var(--mint);color:var(--mint)}
 .pod.error .st{border-color:var(--red);color:var(--red)}
@@ -65,7 +64,7 @@ canvas.av{display:block;width:100%;height:196px}
 .bubble{position:absolute;z-index:5;top:86px;left:50%;transform:translate(-50%,-100%);max-width:96%;width:max-content;font-family:var(--f-round);font-weight:500;font-size:12px;line-height:1.45;background:#fffaf2;color:#231c35;border:2px solid #231c35;border-radius:14px;padding:5px 10px;box-shadow:0 0 0 2px var(--c),0 0 14px color-mix(in srgb,var(--c) 55%,transparent);opacity:0;pointer-events:none;transition:opacity .25s;overflow-wrap:anywhere}
 .bubble.show{opacity:1}
 .bubble::after{content:"";position:absolute;left:50%;bottom:-7px;width:10px;height:10px;background:#fffaf2;border-right:2px solid #231c35;border-bottom:2px solid #231c35;transform:translateX(-50%) rotate(45deg)}
-.out{font-family:var(--f-mono);font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.out{font-family:var(--f-round);font-size:12px;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar{height:3px;background:rgba(255,255,255,.08);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:var(--c);box-shadow:0 0 8px var(--c);transition:width .4s linear}
 .bar.indet i{width:35%;animation:indet 1.2s ease-in-out infinite}
@@ -80,34 +79,34 @@ canvas.av{display:block;width:100%;height:196px}
 .side{display:grid;gap:14px;min-width:0}
 .box{border:1px solid var(--line);background:var(--panel);padding:14px 16px;backdrop-filter:blur(5px);min-width:0}
 form{display:grid;gap:10px}
-label{display:grid;gap:4px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--cyan)}
+label{display:grid;gap:4px;font-family:var(--f-round);font-weight:700;font-size:12px;color:var(--cyan)}
 input,textarea{width:100%;font-family:var(--f-game);font-size:14px;color:var(--fg);background:rgba(0,0,0,.5);border:1px solid var(--line);padding:8px 10px}
 textarea{resize:vertical;min-height:52px}
 input:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 10px rgba(25,227,240,.35)}
 .btns{display:flex;gap:8px;flex-wrap:wrap}
 button.go{flex:1 1 auto;font-family:var(--f-display);font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--bg);background:var(--pink);border:0;padding:11px 14px;cursor:pointer;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);box-shadow:0 0 18px rgba(255,46,136,.6)}
 button.go:disabled{opacity:.45;cursor:wait}
-button.ghost{font-family:var(--f-mono);font-size:12px;color:var(--cyan);background:transparent;border:1px solid var(--cyan);padding:8px 12px;cursor:pointer}
+button.ghost{font-family:var(--f-round);font-size:12px;color:var(--cyan);background:transparent;border:1px solid var(--cyan);padding:8px 12px;cursor:pointer}
 button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
-.hint{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.hint{font-family:var(--f-round);font-size:12px;color:var(--muted);line-height:1.6;margin:0}
 .hint code{font-family:var(--f-mono);color:var(--amber);word-break:break-all}
 .hint.err{color:var(--red)}
 .result{border:1px solid var(--mint);padding:10px 12px;display:grid;gap:6px;background:rgba(92,242,176,.06)}
 .result.bad{border-color:var(--red);background:rgba(255,77,94,.06)}
-.result b{font-family:var(--f-display);color:var(--mint);letter-spacing:.1em}
+.result b{font-family:var(--f-round);color:var(--mint);letter-spacing:.1em}
 .result.bad b{color:var(--red)}
 .result a{color:var(--cyan)}
-.log ol{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:280px;overflow:auto;font-family:var(--f-mono);font-size:12px}
+.log ol{list-style:none;margin:0;padding:0;display:grid;gap:5px;max-height:280px;overflow:auto;font-family:var(--f-round);font-size:12px}
 .log li{display:grid;grid-template-columns:auto auto 1fr;gap:8px;align-items:baseline}
 .log li.dim .msg{color:var(--muted)}
 .log li.bad .msg{color:var(--red)}
 .log time{color:var(--muted);font-variant-numeric:tabular-nums}
 .log .who{font-weight:700}
-.log .msg{font-family:var(--f-game);color:var(--fg);min-width:0;overflow-wrap:anywhere}
-.card h3{margin:0;font-family:var(--f-display);font-size:20px;color:var(--c,var(--cyan));text-shadow:0 0 8px var(--c,var(--cyan))}
-.card h3 span{font-size:13px;color:var(--muted);text-shadow:none;font-family:var(--f-game)}
+.log .msg{font-family:var(--f-round);color:var(--fg);min-width:0;overflow-wrap:anywhere}
+.card h3{margin:0;font-family:var(--f-round);font-size:20px;color:var(--c,var(--cyan));text-shadow:0 0 8px var(--c,var(--cyan))}
+.card h3 span{font-size:13px;color:var(--muted);text-shadow:none}
 .card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:13px}
-.card dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--muted);padding-top:2px}
+.card dt{font-family:var(--f-round);font-size:11px;color:var(--muted);padding-top:2px}
 .card dd{margin:0;min-width:0;overflow-wrap:anywhere}
 .card dd code{font-family:var(--f-mono);color:var(--amber)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -118,48 +117,48 @@ button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
 <div class="app">
   <header class="hud">
-    <div class="logo">NEON<span>-</span>RESEARCH <span>DIV.</span><small>YOUTUBE THEME INTELLIGENCE · 第七区 ネオン街 42F</small></div>
+    <div class="logo">NEON<span>-</span>RESEARCH <span>DIV.</span><small>YouTubeテーマリサーチ部</small></div>
     <div class="hudr">
-      <span class="mode" id="mode">DEMO</span>
-      <span id="shift">NIGHT SHIFT</span>
+      <span class="mode" id="mode">デモ再生中</span>
+      <span id="shift">夜</span>
       <div class="tod" role="group" aria-label="時間帯">
-        <button type="button" data-h="auto" aria-pressed="true">AUTO</button><button type="button" data-h="6.3" aria-pressed="false">朝</button><button type="button" data-h="12" aria-pressed="false">昼</button><button type="button" data-h="17.6" aria-pressed="false">夕</button><button type="button" data-h="22" aria-pressed="false">夜</button>
+        <button type="button" data-h="auto" aria-pressed="true">自動</button><button type="button" data-h="6.3" aria-pressed="false">朝</button><button type="button" data-h="12" aria-pressed="false">昼</button><button type="button" data-h="17.6" aria-pressed="false">夕</button><button type="button" data-h="22" aria-pressed="false">夜</button>
       </div>
-      <span>ACTIVE <b id="hActive">0</b></span>
-      <span>CASES <b id="hDone">1</b></span>
-      <span><b id="clock">--:--</b> JST</span>
+      <span>作業中 <b id="hActive">0</b>人</span>
+      <span>納品 <b id="hDone">1</b>件</span>
+      <span><b id="clock">--:--</b></span>
     </div>
   </header>
 
   <div class="main">
     <section class="floor" aria-label="オフィスフロア">
-      <h2 class="sec-h"><span>// OFFICE FLOOR 42F</span><span style="display:flex;gap:10px;align-items:center"><em id="caseLabel">STANDBY</em><button type="button" class="ghost" id="autoBtn" aria-pressed="true">AUTO DEMO: ON</button></span></h2>
+      <h2 class="sec-h"><span>オフィス</span><span style="display:flex;gap:10px;align-items:center"><em id="caseLabel">待機中</em><button type="button" class="ghost" id="autoBtn" aria-pressed="true">自動デモ：ON</button></span></h2>
       <div class="pods" id="pods"></div>
     </section>
 
     <aside class="side">
       <section class="box" aria-label="依頼ターミナル">
-        <h2 class="sec-h"><span>// DISPATCH TERMINAL</span><em>ZERO宛て</em></h2>
+        <h2 class="sec-h"><span>リサーチを依頼する</span></h2>
         <form id="f">
           <label for="genre">ジャンル
             <input id="genre" value="AI活用・副業" required>
           </label>
-          <label for="target">ターゲット（空欄ならZEROが決めます）
+          <label for="target">ターゲット（空欄なら、うにが決めます）
             <input id="target" value="20〜40代の会社員" placeholder="例：30代の子育てママ">
           </label>
           <label for="extra">追加条件（任意）
             <textarea id="extra" placeholder="例：Shorts中心、顔出しなし"></textarea>
           </label>
           <div class="btns">
-            <button class="go" id="goBtn" type="submit">DISPATCH ▶</button>
-            <button class="ghost" id="copyBtn" type="button">指令文をコピー</button>
+            <button class="go" id="goBtn" type="submit">依頼する</button>
+            <button class="ghost" id="copyBtn" type="button">Claude Code用にコピー</button>
           </div>
-          <p class="hint" id="hint">デモモードです。DISPATCHを押すと、社員の動きを再生します。ローカルでサーバーを起動すると LIVE モードに切り替わり、AI社員が本当にリサーチを実行します。</p>
+          <p class="hint" id="hint">いまはデモ再生です。「依頼する」を押すと、社員の動きを再生します。本番で使うには、パソコンでオフィスのサーバーを起動してください。</p>
         </form>
       </section>
       <section class="box card" id="profile" aria-live="polite"></section>
       <section class="box log" aria-label="アクティビティログ">
-        <h2 class="sec-h"><span>// ACTIVITY LOG</span><em>activity.jsonl</em></h2>
+        <h2 class="sec-h"><span>作業ログ</span></h2>
         <ol id="log"></ol>
       </section>
     </aside>
@@ -169,26 +168,26 @@ button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 <script>
 /* ================= staff ================= */
 const STAFF = [
-  {id:"ZERO", role:"指令室長", c:"--amber", skill:"yt-research-director", out:"report.html 納品", boss:true,
+  {id:"うに", task:"全体の指揮と最終チェック", role:"指令室長", c:"--amber", skill:"yt-research-director", out:"report.html 納品", boss:true,
    bio:"夜の路地に棲む影のUMA。トゲのたてがみと金のバイザーで全員を見張る。依頼を受けて前提を決め、仕事を割り振り、品質チェックをして納品する。",
    look:{rim:true,fur:"#22212b",hatch:"#4a4858",rx:36,ry:40,top:"spikes",eyes:"visor",glow:"#ffc23d",shoe:"#ffc23d",mouth:"grin"}},
-  {id:"NOVA", role:"トレンド調査", c:"--cyan", skill:"yt-trend-scout", out:"01_trends.md",
+  {id:"マシュマロ", task:"最新トレンドとルールを調べる", role:"トレンド調査", c:"--cyan", skill:"yt-trend-scout", out:"01_trends.md",
    bio:"雪山の電波塔に住んでいた白いモコモコ。頭のパラボラで世界中のトレンドを受信する。",
    look:{fur:"#eef2f7",hatch:"#aab6c8",rx:34,ry:34,top:"dish",eyes:"round",pupil:"#1a3a8f",glow:"#19e3f0",shoe:"#2a3a8a",mouth:"o"}},
-  {id:"VEX", role:"競合分析", c:"--pink", skill:"yt-competitor-analyst", out:"02_competitors.md",
+  {id:"いちご", task:"競合動画の傾向を分析する", role:"競合分析", c:"--pink", skill:"yt-competitor-analyst", out:"02_competitors.md",
    bio:"ネオン街の看板裏に出るピンクの小悪魔。競合の弱点をかぎつけるのが得意。",
    look:{fur:"#ff6fae",hatch:"#c23f7c",rx:32,ry:33,top:"horns",eyes:"sly",glow:"#ff2e88",shoe:"#1b1a22",mouth:"tongue"}},
-  {id:"MIRA", role:"ターゲット分析", c:"--violet", skill:"yt-audience-profiler", out:"03_audience.md",
+  {id:"ぶどう", task:"視聴者の悩みと関心を読む", role:"ターゲット分析", c:"--violet", skill:"yt-audience-profiler", out:"03_audience.md",
    bio:"たれ耳のラベンダー色の毛玉。ねむそうに見えて、人の気持ちを誰よりも読む。",
    look:{fur:"#cdbcff",hatch:"#8f78d6",rx:33,ry:32,top:"ears",eyes:"sleepy",glow:"#b18cff",shoe:"#4b3a8f",mouth:"w"}},
-  {id:"JIN", role:"企画立案", c:"--orange", skill:"yt-theme-planner", out:"04_themes.md",
+  {id:"にんじん", task:"テーマとタイトルを考える", role:"企画立案", c:"--orange", skill:"yt-theme-planner", out:"04_themes.md",
    bio:"森から上京した背高のっぽ。キャップを後ろにかぶると企画が止まらなくなる。",
    look:{fur:"#d9773a",hatch:"#8e4a1f",rx:31,ry:42,top:"cap",eyes:"round",pupil:"#111",glow:"#ff8a3d",shoe:"#19e3f0",mouth:"grin",brows:true}},
-  {id:"PIXEL", role:"資料作成", c:"--mint", skill:"yt-report-designer", out:"report.html",
+  {id:"えだまめ", task:"見やすいレポートにまとめる", role:"資料作成", c:"--mint", skill:"yt-report-designer", out:"report.html",
    bio:"宇宙から落ちてきたミント色のちびUMA。触角からネオンを出してレポートを光らせる。",
    look:{fur:"#a6f5d3",hatch:"#4fb48c",rx:30,ry:29,top:"antennae",eyes:"alien",glow:"#5cf2b0",shoe:"#ff2e88",mouth:"o"}}
 ];
-const FLOW = {NOVA:["ZERO"],VEX:["ZERO"],MIRA:["ZERO"],JIN:["NOVA","VEX","MIRA"],PIXEL:["JIN"]};
+const FLOW = {マシュマロ:["うに"],いちご:["うに"],ぶどう:["うに"],にんじん:["マシュマロ","いちご","ぶどう"],えだまめ:["にんじん"]};
 const SAMPLE_REPORT = "https://claude.ai/artifact/JK5TSN2mQb2ewPXuQ89HPw";
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -198,14 +197,14 @@ let LIVE=false, hourOverride=null;
 /* ================= hand-drawn fluffy creatures at their workstations ================= */
 const INK="#16131f";
 const CHAT={
-  ZERO:["今日の案件はまだかな","全員、コンディション良好","コーヒーは濃いめで"],
-  NOVA:["新しいAIツールが出たみたい","トレンド受信中…","検索ワードを仕込み中"],
-  VEX:["あのサムネ、文字多すぎ","競合チャンネルを巡回中","狙い目みっけ"],
-  MIRA:["みんなの悩みを聞きたいな","ねむい…でも聞いてる","刺さる言葉をメモ中"],
-  JIN:["企画ネタ、ストック30本","ひらめいた！…気がする","タイトル考え中"],
-  PIXEL:["ネオンの色を調整中","フォントを見比べ中","レポートをピカピカに"]
+  うに:["今日の案件はまだかな","全員、コンディション良好","コーヒーは濃いめで"],
+  マシュマロ:["新しいAIツールが出たみたい","トレンド受信中…","検索ワードを仕込み中"],
+  いちご:["あのサムネ、文字多すぎ","競合チャンネルを巡回中","狙い目みっけ"],
+  ぶどう:["みんなの悩みを聞きたいな","ねむい…でも聞いてる","刺さる言葉をメモ中"],
+  にんじん:["企画ネタ、ストック30本","ひらめいた！…気がする","タイトル考え中"],
+  えだまめ:["ネオンの色を調整中","フォントを見比べ中","レポートをピカピカに"]
 };
-const PANEL={ZERO:"TEAM.CONTROL",NOVA:"TREND.SCAN",VEX:"COMP.SCAN",MIRA:"AUDIENCE.MAP",JIN:"IDEA.BOARD",PIXEL:"REPORT.RENDER"};
+const PANEL={うに:"チームの様子",マシュマロ:"トレンド",いちご:"競合チェック",ぶどう:"視聴者の気持ち",にんじん:"企画ボード",えだまめ:"レポート"};
 function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function fluff(g,cx,cy,rx,ry,n,puff,R,fill,lw){
   g.beginPath();
@@ -233,9 +232,9 @@ function star(g,x,y,s){g.beginPath();for(let i=0;i<8;i++){const r=i%2?s*.4:s*1.6
 function poseOf(p,t){
   if(p.state==="working"){
     const lt=t-p.workT0;
-    if(p.id==="ZERO")return Math.floor(lt/2600)%2?"point":"type";
-    if(p.id==="JIN")return Math.floor(lt/1800)%3===2?"point":"type";
-    if(p.id==="NOVA")return Math.floor(lt/3000)%3===2?"point":"type";
+    if(p.id==="うに")return Math.floor(lt/2600)%2?"point":"type";
+    if(p.id==="にんじん")return Math.floor(lt/1800)%3===2?"point":"type";
+    if(p.id==="マシュマロ")return Math.floor(lt/3000)%3===2?"point":"type";
     return "type";
   }
   if(p.state==="done")return "hold";
@@ -273,20 +272,20 @@ function drawPanel(g,p,t,cx,W){
   // trapezoid projector beam from console to panel
   g.fillStyle=c; g.globalAlpha*=.07; g.beginPath(); g.moveTo(x+12,y+ph); g.lineTo(x+pw-12,y+ph); g.lineTo(cx+26,y+ph+40); g.lineTo(cx-26,y+ph+40); g.closePath(); g.fill();
   g.globalAlpha=active?1:p.state==="done"?.85:.42;
-  g.font="9px 'Share Tech Mono',monospace"; g.fillStyle=c; g.textAlign="left"; g.textBaseline="top";
-  g.fillText(PANEL[p.id]+(active?" ▶ RUN":p.state==="done"?" ✓ DONE":" · STANDBY"),x+5,y+3);
+  g.font="bold 10px 'Zen Maru Gothic',sans-serif"; g.fillStyle=c; g.textAlign="left"; g.textBaseline="top";
+  g.fillText(PANEL[p.id]+(active?" · 作業中":p.state==="done"?" · 完了":""),x+5,y+3);
   g.save(); g.beginPath(); g.rect(x+1,y+14,pw-2,ph-27); g.clip();
   CONTENT[p.id](g,x+4,y+15,pw-8,ph-29,lt,active,c,p,t);
   g.restore();
   const line=p.lines[p.lines.length-1]||"";
-  g.fillStyle=active?"#ece9f8":c; g.font="9px 'DotGothic16','Share Tech Mono',monospace";
-  let txt="> "+line; while(g.measureText(txt).width>pw-10&&txt.length>3)txt=txt.slice(0,-2)+"…";
+  g.fillStyle=active?"#ece9f8":c; g.font="500 10px 'Zen Maru Gothic',sans-serif";
+  let txt=line; while(g.measureText(txt).width>pw-10&&txt.length>3)txt=txt.slice(0,-2)+"…";
   g.fillText(txt,x+5,y+ph-11);
   g.restore();
 }
 const CONTENT={
-  ZERO(g,x,y,w,h,lt,active,c){
-    const cx=x+w/2, cy=y+h/2, ids=["NOVA","VEX","MIRA","JIN","PIXEL"];
+  うに(g,x,y,w,h,lt,active,c){
+    const cx=x+w/2, cy=y+h/2, ids=["マシュマロ","いちご","ぶどう","にんじん","えだまめ"];
     ids.forEach((id,i)=>{
       const a=-Math.PI/2+i/ids.length*Math.PI*2, nx=cx+Math.cos(a)*Math.min(w*.38,58), ny=cy+Math.sin(a)*h*.38, q=S(id);
       const col=q.look.glow, on=q.state==="working";
@@ -297,7 +296,7 @@ const CONTENT={
     });
     g.fillStyle=c; g.beginPath(); g.arc(cx,cy,5,0,Math.PI*2); g.fill();
   },
-  NOVA(g,x,y,w,h,lt,active,c){
+  マシュマロ(g,x,y,w,h,lt,active,c){
     const n=34, shown=active?Math.min(n,Math.floor(lt/90)%(n+14)):n;
     g.strokeStyle="rgba(25,227,240,.18)"; g.lineWidth=1;
     for(let i=1;i<4;i++){g.beginPath(); g.moveTo(x,y+h*i/4); g.lineTo(x+w,y+h*i/4); g.stroke();}
@@ -307,7 +306,7 @@ const CONTENT={
     if(active){const sx=x+((lt/12)%w); g.fillStyle="rgba(25,227,240,.25)"; g.fillRect(sx,y,6,h);}
     for(let i=0;i<5;i++){const bh=(active?.3+.7*Math.abs(Math.sin(lt/400+i)):.4)*h*.45; g.fillStyle="rgba(255,194,61,.7)"; g.fillRect(x+w-40+i*8,y+h-bh,5,bh);}
   },
-  VEX(g,x,y,w,h,lt,active,c){
+  いちご(g,x,y,w,h,lt,active,c){
     const cols=4, rows=2, gw=(w-6)/cols, gh=(h-3)/rows, cur=active?Math.floor(lt/650)%(cols*rows):-1;
     for(let i=0;i<cols*rows;i++){
       const tx=x+(i%cols)*(gw+2), ty=y+Math.floor(i/cols)*(gh+3);
@@ -319,7 +318,7 @@ const CONTENT={
       if(i===cur){g.strokeStyle=c; g.lineWidth=2; g.strokeRect(tx-1,ty-1,gw+2,gh+2);}
     }
   },
-  MIRA(g,x,y,w,h,lt,active,c){
+  ぶどう(g,x,y,w,h,lt,active,c){
     const n=3, cw=Math.min(46,(w-16)/3);
     for(let i=0;i<n;i++){
       const tx=x+6+i*(cw+5), ty=y+4+(active?Math.sin(lt/500+i)*2:0);
@@ -330,7 +329,7 @@ const CONTENT={
     if(active)for(let k=0;k<5;k++){const ph=((lt/1400)+k/5)%1; const hx=x+w*.15+(k*37%w)*.7, hy=y+h-ph*h;
       g.globalAlpha*=1; g.fillStyle=`rgba(255,111,174,${1-ph})`; g.font="10px sans-serif"; g.fillText("♥",hx,hy);}
   },
-  JIN(g,x,y,w,h,lt,active,c){
+  にんじん(g,x,y,w,h,lt,active,c){
     const total=8, shown=active?Math.min(total,1+Math.floor(lt/650)%(total+4)):3, nw=(w-10)/4, nh=(h-4)/2;
     const cols=["#ffc23d","#ff8a3d","#5cf2b0","#ff6fae"];
     for(let i=0;i<shown;i++){
@@ -341,7 +340,7 @@ const CONTENT={
       g.restore();
     }
   },
-  PIXEL(g,x,y,w,h,lt,active,c){
+  えだまめ(g,x,y,w,h,lt,active,c){
     const pw=Math.min(70,w*.5), px=x+w/2-pw/2;
     g.fillStyle="#f5f2ff"; g.fillRect(px,y,pw,h);
     const rows=9, shown=active?Math.floor(lt/260)%(rows+5):rows;
@@ -419,11 +418,11 @@ function drawCreature(g,p,t,cx,floor,pose){
   // garnish
   if(pose==="browse"){ /* idle reading the panel */ }
   if(asleep&&!reduce){const z=(t/900)%1; g.fillStyle="rgba(236,233,248,"+(1-z)+")"; g.font="bold 13px 'Zen Maru Gothic',sans-serif"; g.fillText("z",cx+rx-2+z*8,cy-ry+4-z*16); g.font="bold 10px 'Zen Maru Gothic',sans-serif"; g.fillText("z",cx+rx+8+z*6,cy-ry-8-z*12);}
-  if(p.id==="JIN"&&p.state==="working"&&Math.floor((t-p.workT0)/1800)%3===2){
+  if(p.id==="にんじん"&&p.state==="working"&&Math.floor((t-p.workT0)/1800)%3===2){
     const bx=cx-rx-6, by=cy-ry-6; g.save(); g.shadowColor="#ffc23d"; g.shadowBlur=14; g.fillStyle="#ffe27a"; g.beginPath(); g.arc(bx,by,7,0,Math.PI*2); g.fill(); g.restore();
     g.strokeStyle=INK; g.lineWidth=1.6; g.beginPath(); g.arc(bx,by,7,0,Math.PI*2); g.stroke(); g.fillStyle="#8d88a8"; g.fillRect(bx-3,by+6,6,4);
   }
-  if(p.state==="working"&&p.id==="VEX"){ // magnifier
+  if(p.state==="working"&&p.id==="いちご"){ // magnifier
     const mx=cx+rx+4, my=cy-ry*.2+(reduce?0:Math.sin(t/260)*3);
     g.strokeStyle=INK; g.lineWidth=2.4; g.beginPath(); g.arc(mx,my,7,0,Math.PI*2); g.fillStyle="rgba(25,227,240,.3)"; g.fill(); g.stroke();
     g.beginPath(); g.moveTo(mx+5,my+5); g.lineTo(mx+11,my+11); g.stroke();
@@ -496,27 +495,27 @@ STAFF.forEach((p,idx)=>{
   b.style.setProperty("--c",`var(${p.c})`);
   b.innerHTML=`<div class="stage"><canvas class="av" aria-hidden="true"></canvas><div class="bubble"></div></div>
     <div class="${p.boss?"bossinfo":""}" style="display:grid;gap:6px;min-width:0">
-      <div class="tag"><span class="name">${p.id}</span><span class="st">IDLE</span></div>
-      <div class="role">${p.role} · <span>${p.skill}</span></div>
+      <div class="tag"><span class="name">${p.id}</span><span class="st">待機中</span></div>
+      <div class="role">${p.role}</div>
       ${p.boss?'<div class="now" id="bossNow">待機中。依頼をお待ちしています。</div>':""}
       <div class="bar"><i></i></div>
-      <div class="out">OUT ▸ ${p.out}</div>
+      <div class="out">${p.task}</div>
     </div>`;
   b.addEventListener("click",()=>showProfile(p));
   podsEl.appendChild(b);
   Object.assign(p,{el:b,cv:b.querySelector("canvas"),bub:b.querySelector(".bubble"),
     st:b.querySelector(".st"),barBox:b.querySelector(".bar"),bar:b.querySelector(".bar i"),state:"idle",done:0,seed:idx+1,now:"待機中",
-    lines:["standby"],workT0:0,idle:{pose:"idle",until:0}});
+    lines:["お仕事待ち"],workT0:0,idle:{pose:"idle",until:0}});
 });
 const hire=document.createElement("div"); hire.className="pod hire";
-hire.innerHTML=`<span class="name">+ NEW HIRE</span><span class="role">採用枠：次のAI社員<br>（例：台本ライター／サムネデザイナー）</span>`;
+hire.innerHTML=`<span class="name">＋ 採用枠</span><span class="role">次のAI社員を募集中<br>（例：台本ライター、サムネデザイナー）</span>`;
 podsEl.appendChild(hire);
 
 function pushScreen(p,txt){p.lines.push(txt); if(p.lines.length>6)p.lines.shift();}
 function setState(p,s){
   if(s==="working"&&p.state!=="working")p.workT0=performance.now();
   p.state=s; ["working","done","error"].forEach(k=>p.el.classList.toggle(k,s===k));
-  p.st.textContent={idle:"IDLE",working:"WORKING",done:"DONE",error:"ERROR"}[s];
+  p.st.textContent={idle:"待機中",working:"作業中",done:"完了",error:"エラー"}[s];
   p.barBox.classList.toggle("indet",s==="working"&&LIVE);
   if(s==="idle")p.bar.style.width="0";
   if(s==="done"){p.bar.style.width="100%";p.done++;}
@@ -540,14 +539,12 @@ function animate(t){
   if(!reduce)requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
-const CODE=["GET /trend 200","parse(json)","rank.sort()","ctr≈0.071","fetch srcs[5]","diff(comp)","heat:HOT","emit md →","render <tbl>"];
-setInterval(()=>STAFF.forEach(p=>{if(p.state==="working"&&!LIVE&&Math.random()<.3)pushScreen(p,CODE[Math.floor(Math.random()*CODE.length)]);}),700);
 
 /* ================= log & profile ================= */
 const logEl=document.getElementById("log");
 function log(id,msg,cls=""){
-  const p=S(id)||S("ZERO"); const li=document.createElement("li"); if(cls)li.className=cls;
-  li.innerHTML=`<time>${new Date().toTimeString().slice(0,8)}</time><span class="who" style="color:var(${p.c})">${S(id)?id:"SYS"}</span><span class="msg"></span>`;
+  const p=S(id)||S("うに"); const li=document.createElement("li"); if(cls)li.className=cls;
+  li.innerHTML=`<time>${new Date().toTimeString().slice(0,5)}</time><span class="who" style="color:var(${p.c})">${S(id)?id:"システム"}</span><span class="msg"></span>`;
   li.querySelector(".msg").textContent=msg; logEl.prepend(li);
   while(logEl.children.length>200)logEl.lastChild.remove();
 }
@@ -555,53 +552,52 @@ let profileFor=STAFF[0];
 function showProfile(p){
   profileFor=p; const el=document.getElementById("profile"); el.style.setProperty("--c",`var(${p.c})`);
   el.innerHTML=`<h3>${p.id} <span>${p.role}</span></h3><p class="hint" style="margin-top:6px"></p>
-  <dl><dt>SKILL</dt><dd><code>.claude/skills/${p.skill}/</code></dd><dt>OUTPUT</dt><dd><code>${p.out}</code></dd>
-  <dt>STATUS</dt><dd>${p.st.textContent}</dd><dt>NOW</dt><dd class="nowtxt"></dd><dt>TASKS</dt><dd>${p.done+1} 件完了</dd></dl>`;
+  <dl><dt>担当</dt><dd>${p.task}</dd><dt>状態</dt><dd>${p.st.textContent}</dd>
+  <dt>いま</dt><dd class="nowtxt"></dd><dt>実績</dt><dd>${p.done+1}件の仕事を完了</dd></dl>`;
   el.querySelector(".hint").textContent=p.bio; el.querySelector(".nowtxt").textContent=p.now;
 }
 
 /* ================= event handling (shared by LIVE and DEMO) ================= */
 const goBtn=document.getElementById("goBtn"), hint=document.getElementById("hint");
-let running=false, caseNo="";
+let running=false;
 function handle(ev){
   if(ev.type==="job"&&ev.status==="started"){
-    running=true; goBtn.disabled=true; goBtn.textContent="RUNNING…";
+    running=true; goBtn.disabled=true; goBtn.textContent="作業中…";
     document.querySelector(".result")?.remove();
     STAFF.forEach(p=>setState(p,"idle"));
-    caseNo="YT-"+String(1+Number(document.getElementById("hDone").textContent)).padStart(4,"0");
-    document.getElementById("caseLabel").textContent=`${caseNo} · ${ev.genre}`;
-    log("ZERO",`案件 ${caseNo}「${ev.genre}」を受け付けました`);
+    document.getElementById("caseLabel").textContent=`案件：${ev.genre}`;
+    log("うに",`「${ev.genre}」の依頼を受け付けました`);
   }else if(ev.type==="activity"){
     const p=S(ev.agent); if(!p)return;
     if(ev.status==="working"){ (FLOW[p.id]||[]).forEach(src=>packet(S(src),p)); setState(p,"working"); }
-    else if(ev.status==="done"){ if(p.id==="ZERO")packet(S("PIXEL"),p); setState(p,"done"); }
+    else if(ev.status==="done"){ if(p.id==="うに")packet(S("えだまめ"),p); setState(p,"done"); }
     else if(ev.status==="error"){ setState(p,"error"); }
     say(p,ev.msg); log(p.id,ev.msg,ev.status==="error"?"bad":"");
-    pushScreen(p,"> "+ev.msg);
+    pushScreen(p,ev.msg);
     if(profileFor===p)showProfile(p);
   }else if(ev.type==="tool"){
-    const p=S(ev.agent)||S("ZERO");
+    const p=S(ev.agent)||S("うに");
     say(p,ev.detail,2600); pushScreen(p,ev.detail); log(p.id,ev.detail,"dim");
   }else if(ev.type==="result"){
-    log("ZERO",ev.ok?`処理完了（${ev.turns}ターン・推定 $${(ev.costUsd||0).toFixed(2)}）`:`処理が途中で止まりました（${ev.subtype}）`,ev.ok?"":"bad");
+    log("うに",ev.ok?`作業完了（費用の目安：約$${(ev.costUsd||0).toFixed(2)}）`:"作業が途中で止まりました",ev.ok?"":"bad");
   }else if(ev.type==="job"&&(ev.status==="finished"||ev.status==="error")){
-    if(ev.status==="error"){ log("ZERO",ev.error,"bad"); setState(S("ZERO"),"error"); }
+    if(ev.status==="error"){ log("うに",ev.error,"bad"); setState(S("うに"),"error"); }
     finish(ev);
   }
 }
 function finish(ev){
-  running=false; goBtn.disabled=false; goBtn.textContent="DISPATCH ▶";
+  running=false; goBtn.disabled=false; goBtn.textContent="依頼する";
   STAFF.forEach(p=>{if(p.state==="working")setState(p,"idle");});
   const r=document.createElement("div"); const ok=!!ev.report;
   r.className="result"+(ok?"":" bad");
   if(ok){
     const n=document.getElementById("hDone"); n.textContent=Number(n.textContent)+1;
-    r.innerHTML=`<b>MISSION COMPLETE · ${caseNo}</b><span class="hint"></span><a target="_blank" rel="noopener">▶ レポートを開く</a>`;
-    r.querySelector(".hint").textContent=ev.note||`所要 ${ev.seconds??"-"} 秒。レポートが届きました。`;
+    r.innerHTML=`<b>リサーチ完了</b><span class="hint"></span><a target="_blank" rel="noopener">レポートを開く →</a>`;
+    r.querySelector(".hint").textContent=ev.note||`レポートが届きました（${Math.round((ev.seconds||0)/60)}分）。`;
     r.querySelector("a").href=ev.report;
   }else{
-    r.innerHTML=`<b>NO REPORT · ${caseNo}</b><span class="hint"></span>`;
-    r.querySelector(".hint").textContent=ev.note||"レポートが作られませんでした。アクティビティログでエラーを確認してください。";
+    r.innerHTML=`<b>レポートが届きませんでした</b><span class="hint"></span>`;
+    r.querySelector(".hint").textContent=ev.note||"作業ログで原因を確認してください。";
   }
   document.getElementById("f").appendChild(r);
 }
@@ -612,25 +608,25 @@ async function demo(genre,target){
   const A=(agent,status,msg)=>handle({type:"activity",agent,status,msg});
   const T=(agent,detail)=>handle({type:"tool",agent,detail});
   handle({type:"job",status:"started",genre});
-  A("ZERO","working",`案件受付：「${genre}」`); await wait(1400);
-  say(S("ZERO"),target?`ターゲットは「${target}」に決定`:"ターゲットは私が仮置きします"); await wait(1400);
-  T("ZERO","スキル呼び出し：yt-trend-scout ほか2名"); await wait(700);
-  A("NOVA","working","トレンド調査を開始"); A("VEX","working","競合分析を開始"); A("MIRA","working","ターゲット分析を開始");
-  const steps=[["NOVA",`検索：${genre} YouTube 人気 2026`],["VEX",`検索：${genre} YouTube おすすめ チャンネル`],["MIRA","ペルソナを2人作成中"],
-    ["NOVA","検索：YouTube 収益化ポリシー AI 最新"],["VEX","「金額＋期間」の型は飽和"],["MIRA","関心マップ6軸が完成"],["NOVA","Write：01_trends.md"],["MIRA","Write：03_audience.md"],["VEX","Write：02_competitors.md"]];
+  A("うに","working",`案件受付：「${genre}」`); await wait(1400);
+  say(S("うに"),target?`ターゲットは「${target}」に決定`:"ターゲットは私が仮置きします"); await wait(1400);
+  T("うに","マシュマロ・いちご・ぶどうに仕事をお願い"); await wait(700);
+  A("マシュマロ","working","トレンド調査を開始"); A("いちご","working","競合分析を開始"); A("ぶどう","working","ターゲット分析を開始");
+  const steps=[["マシュマロ",`「${genre}」の人気動画を検索中`],["いちご","競合チャンネルを巡回中"],["ぶどう","視聴者像を2人つくっています"],
+    ["マシュマロ","YouTubeの最新ルールを確認中"],["いちご","「金額＋期間」タイトルは飽和ぎみ"],["ぶどう","関心マップが完成"],["マシュマロ","調べた結果をまとめています"],["ぶどう","分析結果をまとめています"],["いちご","分析結果をまとめています"]];
   for(const [i,[a,d]] of steps.entries()){T(a,d); S(a).bar.style.width=Math.min(95,(i+3)*10)+"%"; await wait(800);}
-  A("MIRA","done","ターゲット分析完了"); await wait(300); A("NOVA","done","トレンド調査完了"); await wait(300); A("VEX","done","競合分析完了"); await wait(800);
-  A("JIN","working","テーマ企画を開始"); await wait(1200);
-  for(const [i,d] of ["テーマ10案を生成","想定再生回数を算出","タイトル20案とサムネ案が完成","Write：04_themes.md"].entries()){T("JIN",d); S("JIN").bar.style.width=(i+1)*24+"%"; await wait(1100);}
-  A("JIN","done","テーマ企画完了"); await wait(700);
-  A("PIXEL","working","レポート作成を開始"); await wait(1000);
-  for(const d of ["ネオンを点灯中","Write：report.html"]){T("PIXEL",d); await wait(1100);}
-  A("PIXEL","done","レポート納品"); await wait(700);
-  T("ZERO","品質チェック：10項目"); await wait(1400);
-  A("ZERO","done","すべてクリア。納品します");
+  A("ぶどう","done","ターゲット分析完了"); await wait(300); A("マシュマロ","done","トレンド調査完了"); await wait(300); A("いちご","done","競合分析完了"); await wait(800);
+  A("にんじん","working","テーマ企画を開始"); await wait(1200);
+  for(const [i,d] of ["テーマを10案考えています","再生回数を見積もり中","タイトル20案とサムネ案が完成","企画書をまとめています"].entries()){T("にんじん",d); S("にんじん").bar.style.width=(i+1)*24+"%"; await wait(1100);}
+  A("にんじん","done","テーマ企画完了"); await wait(700);
+  A("えだまめ","working","レポート作成を開始"); await wait(1000);
+  for(const d of ["ネオンを点灯中","レポートを仕上げ中"]){T("えだまめ",d); await wait(1100);}
+  A("えだまめ","done","レポート納品"); await wait(700);
+  T("うに","できあがりを10項目でチェック"); await wait(1400);
+  A("うに","done","すべてクリア。納品します");
   const isSample=genre==="AI活用・副業";
   handle({type:"job",status:"finished",report:isSample?SAMPLE_REPORT:null,
-    note:isSample?"デモ再生が終わりました。この案件の実際のレポートを開けます。":`ここまではデモです。「${genre}」の本物のレポートは、LIVEモードか Claude Code（指令文をコピー）で作れます。`});
+    note:isSample?"デモ再生が終わりました。この案件の実際のレポートを見られます。":`ここまではデモです。「${genre}」の本物のレポートは、本番接続中の画面から依頼すると作れます。`});
 }
 
 /* ================= dispatch ================= */
@@ -642,16 +638,16 @@ document.getElementById("f").addEventListener("submit",async e=>{
   try{
     const res=await fetch("/api/dispatch",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({genre,target,extra})});
     if(!res.ok){const j=await res.json().catch(()=>({}));hint.textContent=j.error||`依頼を送れませんでした（${res.status}）。`;hint.classList.add("err");return;}
-    hint.textContent="依頼を送りました。AI社員がリサーチ中です。1件あたり10〜20分ほどかかります。";
-  }catch{hint.textContent="サーバーに接続できません。server フォルダで npm start が動いているか確認してください。";hint.classList.add("err");}
+    hint.textContent="依頼しました。AI社員がリサーチ中です（10〜20分ほどかかります）。";
+  }
+  catch{hint.textContent="オフィスのサーバーとつながりません。サーバーが起動しているか確認してください。";hint.classList.add("err");}
 });
 document.getElementById("copyBtn").addEventListener("click",async()=>{
   const g=document.getElementById("genre").value.trim(), t=document.getElementById("target").value.trim(), x=document.getElementById("extra").value.trim();
   const cmd=`/yt-research-director ジャンル：${g}${t?` ／ ターゲット：${t}`:""}${x?` ／ 追加条件：${x}`:""}`;
   hint.classList.remove("err");
-  try{await navigator.clipboard.writeText(cmd);hint.innerHTML="コピーしました。Claude Code に貼り付けてください。<br><code></code>";}
-  catch{hint.innerHTML="自動コピーできませんでした。下の文を選択してコピーしてください。<br><code></code>";}
-  hint.querySelector("code").textContent=cmd;
+  try{await navigator.clipboard.writeText(cmd);hint.textContent="コピーしました。Claude Code に貼り付けると、そのままリサーチが始まります。";}
+  catch{hint.innerHTML="自動でコピーできませんでした。下の文を選んでコピーしてください。<br><code></code>";hint.querySelector("code").textContent=cmd;}
 });
 
 /* ================= LIVE connection (Agent SDK server) ================= */
@@ -660,23 +656,23 @@ document.getElementById("copyBtn").addEventListener("click",async()=>{
     const res=await fetch("/api/status",{cache:"no-store"}); if(!res.ok)throw 0;
     const st=await res.json(); if(!st.live)throw 0;
     LIVE=true;
-    const m=document.getElementById("mode"); m.textContent="LIVE · AGENT SDK"; m.classList.add("live");
+    const m=document.getElementById("mode"); m.textContent="本番接続中"; m.classList.add("live");
     document.getElementById("hDone").textContent=st.reports.length;
-    hint.textContent=`LIVEモードです（${st.model}）。DISPATCHを押すと、AI社員が本当にリサーチを始めます。`;
-    if(st.running){running=true;goBtn.disabled=true;goBtn.textContent="RUNNING…";document.getElementById("caseLabel").textContent=`実行中 · ${st.genre}`;}
+    hint.textContent="本番接続中です。「依頼する」を押すと、AI社員が実際にリサーチを始めます。";
+    if(st.running){running=true;goBtn.disabled=true;goBtn.textContent="作業中…";document.getElementById("caseLabel").textContent=`案件：${st.genre}`;}
     const es=new EventSource("/api/events");
     es.onmessage=e=>{try{handle(JSON.parse(e.data));}catch{}};
-    es.onerror=()=>{m.textContent="LIVE · 再接続中";};
-    es.onopen=()=>{m.textContent="LIVE · AGENT SDK";};
+    es.onerror=()=>{m.textContent="再接続中…";};
+    es.onopen=()=>{m.textContent="本番接続中";};
   }catch{/* stays in DEMO */}
 })();
 showProfile(STAFF[0]);
-log("ZERO","案件 YT-0001「AI活用・副業」は納品済みです");
+log("うに","「AI活用・副業」のレポートは納品済みです");
 
 /* DEMO: replay the workflow on a loop so visitors always see the staff at work */
 let autoDemo=true;
 const autoBtn=document.getElementById("autoBtn");
-autoBtn.addEventListener("click",()=>{autoDemo=!autoDemo;autoBtn.textContent=`AUTO DEMO: ${autoDemo?"ON":"OFF"}`;autoBtn.setAttribute("aria-pressed",String(autoDemo));});
+autoBtn.addEventListener("click",()=>{autoDemo=!autoDemo;autoBtn.textContent=`自動デモ：${autoDemo?"ON":"OFF"}`;autoBtn.setAttribute("aria-pressed",String(autoDemo));});
 (async()=>{
   await new Promise(r=>setTimeout(r,2500));
   for(;;){
@@ -709,7 +705,7 @@ function palette(h){
   ["win","neon","sun","moon","rain"].forEach((n,j)=>P[n]=a[j+7]+(b[j+7]-a[j+7])*k);
   return P;
 }
-function shiftName(h){return h<5?"MIDNIGHT SHIFT":h<7.5?"DAWN SHIFT":h<16?"DAY SHIFT":h<19?"DUSK SHIFT":"NIGHT SHIFT";}
+function shiftName(h){return h<5?"深夜":h<7.5?"朝":h<16?"昼":h<19?"夕方":"夜";}
 document.querySelectorAll(".tod button").forEach(b=>b.addEventListener("click",()=>{
   hourOverride=b.dataset.h==="auto"?null:Number(b.dataset.h);
   document.querySelectorAll(".tod button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));

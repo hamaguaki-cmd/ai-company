@@ -12,25 +12,25 @@ YouTubeテーマリサーチ業務（STEP1の対話から整理したもの）
 ## 2. 組織と担当
 | コード名 | 役職 | スキル | 担当 |
 |---|---|---|---|
-| ZERO | 指令室長 | yt-research-director | 依頼の受付、前提の決定、全体の進行、最終チェック |
-| NOVA | トレンド調査 | yt-trend-scout | 市場動向、調査データ、規約・ポリシー変更、出典の管理 |
-| VEX | 競合分析 | yt-competitor-analyst | タイトル・サムネ・構成の型、飽和度、競合の弱点 |
-| MIRA | ターゲット分析 | yt-audience-profiler | 関心・悩み・刺さる言葉、ペルソナ |
-| JIN | 企画立案 | yt-theme-planner | テーマ10案、想定再生回数、差別化、タイトル・サムネ案 |
-| PIXEL | 資料作成 | yt-report-designer | サイバーパンク調HTMLレポートの作成 |
+| うに | 指令室長 | yt-research-director | 依頼の受付、前提の決定、全体の進行、最終チェック |
+| マシュマロ | トレンド調査 | yt-trend-scout | 市場動向、調査データ、規約・ポリシー変更、出典の管理 |
+| いちご | 競合分析 | yt-competitor-analyst | タイトル・サムネ・構成の型、飽和度、競合の弱点 |
+| ぶどう | ターゲット分析 | yt-audience-profiler | 関心・悩み・刺さる言葉、ペルソナ |
+| にんじん | 企画立案 | yt-theme-planner | テーマ10案、想定再生回数、差別化、タイトル・サムネ案 |
+| えだまめ | 資料作成 | yt-report-designer | サイバーパンク調HTMLレポートの作成 |
 
 ## 3. 作業フロー
-1. ZEROが案件フォルダ `research/<slug>/` を作り、`00_brief.md` に前提を書く
-2. NOVAが `01_trends.md` を書く（Web検索を5回以上。2025年以降の情報を優先する）
-3. VEXが `02_competitors.md` を書く
-4. MIRAが `03_audience.md` を書く
-5. JINが `04_themes.md` を書く（01〜03を入力として使う）
-6. PIXELが `report.html` を作る（見本のデザインに合わせる）
-7. ZEROがチェックリストで確認し、完了を報告する
+1. うにが案件フォルダ `research/<slug>/` を作り、`00_brief.md` に前提を書く
+2. マシュマロが `01_trends.md` を書く（Web検索を5回以上。2025年以降の情報を優先する）
+3. いちごが `02_competitors.md` を書く
+4. ぶどうが `03_audience.md` を書く
+5. にんじんが `04_themes.md` を書く（01〜03を入力として使う）
+6. えだまめが `report.html` を作る（見本のデザインに合わせる）
+7. うにがチェックリストで確認し、完了を報告する
 
 各工程の開始・完了時に、`state/activity.jsonl` へ1行ずつ書き込む（オフィス画面との連携用）。
 ```json
-{"ts":"2026-10-29T10:00:00+09:00","case":"<slug>","agent":"NOVA","status":"working|done|error","msg":"トレンド調査を開始"}
+{"ts":"2026-10-29T10:00:00+09:00","case":"<slug>","agent":"マシュマロ","status":"working|done|error","msg":"トレンド調査を開始"}
 ```
 
 ## 4. 分析の観点（必須項目）

@@ -69,29 +69,34 @@ function listReports() {
 /* ---------- job runner ---------- */
 let job = null;
 
+// Friendly, code-free descriptions for the office screen. Returns null for steps not worth showing.
+const SKILL_STAFF = {
+  "yt-trend-scout": "マシュマロ", "yt-competitor-analyst": "いちご", "yt-audience-profiler": "ぶどう",
+  "yt-theme-planner": "にんじん", "yt-report-designer": "えだまめ",
+};
 function describeTool(block) {
   const i = block.input || {};
   switch (block.name) {
-    case "WebSearch": return `検索：${i.query ?? ""}`;
-    case "WebFetch": return `ページ取得：${i.url ?? ""}`;
-    case "Skill": return `スキル呼び出し：${i.skill ?? i.command ?? ""}`;
-    case "Write": case "Edit": case "Read": return `${block.name}：${path.basename(i.file_path ?? "")}`;
-    case "Bash": return `コマンド：${String(i.command ?? "").slice(0, 60)}`;
-    case "Agent": return `サブエージェント起動：${i.description ?? ""}`;
-    default: return block.name;
+    case "WebSearch": return `「${i.query ?? ""}」を検索中`;
+    case "WebFetch": return "記事を読んでいます";
+    case "Skill": { const who = SKILL_STAFF[i.skill ?? i.command]; return who ? `${who}に仕事をお願い` : null; }
+    case "Agent": return "チームに仕事をお願い";
+    case "Write": case "Edit": return "資料をまとめています";
+    case "Read": return "資料を確認しています";
+    default: return null;
   }
 }
 
 async function runJob({ genre, target, extra }) {
   const abort = new AbortController();
-  job = { genre, target, extra, startedAt: Date.now(), abort, currentAgent: "ZERO" };
+  job = { genre, target, extra, startedAt: Date.now(), abort, currentAgent: "うに" };
   const before = new Map(listReports().map(r => [r.slug, r.mtime]));
   broadcast({ type: "job", status: "started", genre, target, extra });
 
   const prompt = [
-    "yt-research-director スキル（指令室長ZERO）を使って、YouTubeテーマリサーチを最後まで実行してください。",
+    "yt-research-director スキル（指令室長うに）を使って、YouTubeテーマリサーチを最後まで実行してください。",
     `ジャンル：${genre}`,
-    `ターゲット：${target || "指定なし（ZEROが決めて仮置きと明記する）"}`,
+    `ターゲット：${target || "指定なし（うにが決めて仮置きと明記する）"}`,
     `追加条件：${extra || "なし"}`,
     "ユーザーへの確認は不要です。report.html の納品まで止まらずに進めてください。",
     "各工程の開始と完了で、必ず bash bin/log.sh を実行してください（オフィス画面に表示されます）。",
@@ -113,9 +118,8 @@ async function runJob({ genre, target, extra }) {
     })) {
       if (msg.type === "assistant") {
         for (const block of msg.message.content) {
-          if (block.type === "tool_use") {
-            broadcast({ type: "tool", agent: job.currentAgent, tool: block.name, detail: describeTool(block) });
-          }
+          const detail = block.type === "tool_use" ? describeTool(block) : null;
+          if (detail) broadcast({ type: "tool", agent: job.currentAgent, detail });
         }
       } else if (msg.type === "result") {
         broadcast({
