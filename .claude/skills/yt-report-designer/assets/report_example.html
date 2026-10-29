@@ -1,0 +1,242 @@
+<title>AI副業テーマ報告書</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Share+Tech+Mono&display=swap">
+<style>
+/* Layout: one dossier column (max 1080px) of "data panels", each with a mono header strip, like a terminal case file */
+:root{
+  --bg:#07060d; --panel:#100e1d; --line:#2a2546; --fg:#e7e4f5; --muted:#9a94b8;
+  --pink:#ff2e88; --cyan:#19e3f0; --amber:#ffc23d;
+  --f-display:"Chakra Petch","Zen Kaku Gothic New",system-ui,sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  --f-mono:"Share Tech Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.75;
+  background-image:linear-gradient(rgba(25,227,240,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(25,227,240,.04) 1px,transparent 1px);
+  background-size:32px 32px}
+.wrap{max-width:1080px;margin:0 auto;padding-block:40px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+header.hero{border:1px solid var(--line);background:linear-gradient(135deg,rgba(255,46,136,.12),rgba(25,227,240,.06) 60%,transparent);padding:28px clamp(18px,4vw,40px);position:relative;overflow:hidden}
+header.hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);pointer-events:none}
+.eyebrow{font-family:var(--f-mono);color:var(--cyan);letter-spacing:.12em;font-size:12px;text-transform:uppercase}
+h1{font-family:var(--f-display);font-size:clamp(26px,5vw,42px);line-height:1.2;margin:.3em 0 .4em;text-wrap:balance;text-shadow:0 0 18px rgba(255,46,136,.45)}
+h1 em{font-style:normal;color:var(--pink)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.meta b{color:var(--fg);font-weight:400}
+.staff{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);padding:2px 10px;color:var(--muted)}
+.chip i{font-style:normal;color:var(--cyan)}
+section.panel{border:1px solid var(--line);background:var(--panel)}
+.ph{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:10px 20px;font-family:var(--f-mono);font-size:12px;color:var(--muted);letter-spacing:.08em}
+.ph .who{color:var(--amber)}
+.pb{padding:20px clamp(16px,3vw,28px) 26px;display:grid;gap:16px;min-width:0}
+h2{font-family:var(--f-display);font-size:22px;margin:0;color:var(--fg);text-wrap:balance}
+h2 small{font-family:var(--f-mono);font-size:12px;color:var(--pink);margin-right:10px;letter-spacing:.1em}
+h3{font-size:16px;margin:8px 0 0;color:var(--cyan)}
+p{margin:0;max-width:68ch}
+ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.key{display:grid;gap:10px}
+.key li{list-style:none;border-left:2px solid var(--pink);padding:4px 0 4px 14px;margin-left:-1.2em}
+.key b{color:var(--pink)}
+.tbl{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-mono);font-weight:400;font-size:12px;letter-spacing:.08em;color:var(--cyan);background:rgba(25,227,240,.05)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);color:var(--amber);white-space:nowrap;font-variant-numeric:tabular-nums}
+.heat{font-family:var(--f-mono);font-size:11px;padding:1px 6px;border:1px solid;white-space:nowrap}
+.h3{color:var(--pink);border-color:var(--pink);box-shadow:0 0 8px rgba(255,46,136,.4)}
+.h2{color:var(--amber);border-color:var(--amber)}
+.h1{color:var(--cyan);border-color:var(--cyan)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{border:1px solid var(--line);padding:14px 16px;background:rgba(255,255,255,.015);min-width:0}
+.card h3{margin:0 0 6px}
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.prio div{border:1px solid var(--pink);padding:12px 14px;background:rgba(255,46,136,.06)}
+.prio b{display:block;font-family:var(--f-mono);font-size:12px;color:var(--pink);letter-spacing:.1em}
+.thumb{display:inline-block;font-family:var(--f-display);font-weight:700;color:var(--amber);border:1px solid var(--amber);padding:0 8px;margin-bottom:4px}
+.warn li::marker{color:var(--amber)}
+.src a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted var(--cyan)}
+.src a:focus-visible,.src a:hover{color:var(--pink);border-color:var(--pink);outline:none}
+.note{font-size:13px;color:var(--muted)}
+footer{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:center}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">// NEON-RESEARCH DIV. · CASE FILE YT-0001</div>
+  <h1>YouTubeテーマリサーチ報告書<br><em>AI活用・副業</em></h1>
+  <div class="meta">
+    <span>調査日 <b>2026-10-29</b></span>
+    <span>ターゲット <b>20〜40代会社員／AI初心者〜中級／副業で月3〜10万円</b></span>
+    <span>想定規模 <b>登録者1万人前後</b></span>
+  </div>
+  <div class="staff">
+    <span class="chip"><i>ZERO</i> 指令室長</span><span class="chip"><i>NOVA</i> トレンド調査</span><span class="chip"><i>VEX</i> 競合分析</span><span class="chip"><i>MIRA</i> ターゲット分析</span><span class="chip"><i>JIN</i> 企画立案</span><span class="chip"><i>PIXEL</i> 資料作成</span>
+  </div>
+</header>
+
+<section class="panel">
+  <div class="ph"><span>SUMMARY</span><span class="who">by ZERO</span></div>
+  <div class="pb">
+    <h2><small>00</small>結論</h2>
+    <ul class="key">
+      <li><b>「AIで簡単に稼げる」系は飽和し、信頼も下がっています。</b>AIで作りっぱなしのコンテンツは視聴者から避けられ、「本当に稼げるのか」と疑われる状況です。</li>
+      <li><b>伸びしろがあるのは「検証・実録」「規約・リスク」「AIエージェント」の3領域です。</b>実際の収益公開、失敗談、規約変更への対応、2026年の主役であるAIエージェントに需要があります。</li>
+      <li><b>YouTube自身のルール変更が強いネタになります。</b>2025年7月の収益化ポリシー改定で、量産型・繰り返しの多いAIコンテンツの収益化が難しくなりました。</li>
+      <li><b>会社員の危機感に応えるテーマが効きます。</b>副業をしている会社員の約半数が、生成AIで自分の副業スキルの価値が下がると感じています。副業内容で最も多いのは「データ入力・事務」（27.3%）で、AIに置き換えられやすい仕事です。</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>AUDIENCE PROFILE</span><span class="who">by MIRA</span></div>
+  <div class="pb">
+    <h2><small>01</small>ターゲット層の興味関心</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>関心軸</th><th>具体的な関心・悩み</th><th>動画化のヒント</th></tr></thead>
+      <tbody>
+        <tr><td>収入</td><td>まず月1〜5万円を確実に稼ぎたい。副業月収で最も多いのは「1万〜5万円未満」（40.6%）</td><td>「月5万」が刺さる現実的な数字。「月100万」は疑われる</td></tr>
+        <tr><td>時間</td><td>本業が忙しく、平日は1〜2時間しか使えない</td><td>「1日30分」「スキマ時間」「自動化」</td></tr>
+        <tr><td>不安</td><td>詐欺や情報商材、AIに仕事を奪われること、YouTubeの規約</td><td>「見分け方」「やってはいけない」「生き残る」</td></tr>
+        <tr><td>スキル</td><td>何から始めればいいかわからない。ツールが多すぎる</td><td>「ロードマップ」「これだけでOK」「0円」</td></tr>
+        <tr><td>将来</td><td>約6割がAIでの起業に関心がある</td><td>「AIで本業も副業も伸ばす」「独立」</td></tr>
+        <tr><td>新技術</td><td>AIエージェントで何ができるのか知りたい</td><td>「丸投げしてみた」などの実験系</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>COMPETITOR SCAN</span><span class="who">by VEX</span></div>
+  <div class="pb">
+    <h2><small>02</small>競合動画の傾向分析</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>タイトルの型</th><th>例</th><th>評価</th></tr></thead>
+      <tbody>
+        <tr><td>金額＋期間</td><td>「ChatGPTで月30万稼ぐ方法」</td><td>クリック率は高いが<b>飽和</b>。信頼性で負けやすい</td></tr>
+        <tr><td>〇〇選・ランキング</td><td>「AI副業おすすめ10選【2026年最新】」</td><td>検索流入が強い定番。差は中身でつく</td></tr>
+        <tr><td>煽り・損失回避</td><td>「知らないと損」「まだ〇〇してるの？」</td><td>効くが、使いすぎると不信感を招く</td></tr>
+        <tr><td>実験・検証</td><td>「AIだけで1ヶ月副業してみた結果」</td><td><b>伸びている型</b>。結果を伏せて引っ張る</td></tr>
+        <tr><td>年号・最新</td><td>「【2026年版】」</td><td>ほぼ必須。ないと古い情報だと思われる</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2">
+      <div class="card"><h3>サムネイル</h3><ul>
+        <li>人物の顔（驚き・真顔）＋大きな数字</li>
+        <li>黄色や赤の極太文字に黒フチ、背景は暗め</li>
+        <li>ChatGPT・Claude・Geminiなどのロゴを並べる</li>
+        <li>収益画面のスクショ（ぼかし入り）</li>
+        <li>文字は3〜7字の短い一言が主流</li></ul></div>
+      <div class="card"><h3>構成</h3><ul>
+        <li>0〜30秒：結論や成果を先に見せる</li>
+        <li>〜2分：この動画でわかることを示し、悩みに共感する</li>
+        <li>本編：画面共有で3〜5ステップ</li>
+        <li>終盤：注意点と失敗例、まとめ</li>
+        <li>CTA：概要欄の特典、LINE、関連動画</li></ul></div>
+      <div class="card"><h3>競合の弱点（狙い目）</h3><ul>
+        <li>収益の証拠を出していない</li>
+        <li>ツール紹介で終わり、受注までを描いていない</li>
+        <li>規約やリスクにほとんど触れていない</li>
+        <li>ChatGPT単体の話ばかりで、エージェントを扱っていない</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>THEME PROPOSALS ×10</span><span class="who">by JIN</span></div>
+  <div class="pb">
+    <h2><small>03</small>おすすめテーマ案</h2>
+    <p class="note">想定再生回数は、登録者1万人規模のチャンネルで公開後30日の目安です。実測値ではなく推定値です。<span class="heat h3">HOT</span> 5万回以上 ／ <span class="heat h2">WARM</span> 2〜5万回 ／ <span class="heat h1">STEADY</span> 1〜2万回</p>
+    <div class="tbl"><table>
+      <thead><tr><th>#</th><th>テーマ</th><th>想定再生</th><th>伸びる理由</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>AIエージェントに副業を1ヶ月丸投げしたら、いくら稼げるか検証</b></td><td class="num"><span class="heat h3">HOT</span> 3〜10万</td><td>2026年の最旬キーワードと検証系の組み合わせ。結果が気になって最後まで見られる</td></tr>
+        <tr><td>2</td><td><b>AI量産チャンネルはもう稼げない？YouTube新ルールで生き残る作り方</b></td><td class="num"><span class="heat h3">HOT</span> 3〜8万</td><td>収益化ポリシー改定への不安に直結する。AI系YouTuber志望者にとって必見のテーマ</td></tr>
+        <tr><td>3</td><td><b>AIで消える副業・残る副業ランキング</b></td><td class="num"><span class="heat h3">HOT</span> 3〜7万</td><td>会社員の危機感に刺さる。ランキング形式は検索にもおすすめにも強い</td></tr>
+        <tr><td>4</td><td><b>「AIで月100万」は嘘？情報商材・詐欺の見分け方</b></td><td class="num"><span class="heat h2">WARM</span> 2〜5万</td><td>視聴者の不信感に寄り添う内容で、チャンネルの信頼を長く支える資産になる</td></tr>
+        <tr><td>5</td><td><b>初期費用0円・1日30分のAI副業ロードマップ【2026年版】</b></td><td class="num"><span class="heat h2">WARM</span> 2〜5万</td><td>初心者の検索ワードど真ん中。長く再生される検索型の動画</td></tr>
+        <tr><td>6</td><td><b>会社員がAI副業で月5万稼ぐまでの全記録（収益公開）</b></td><td class="num"><span class="heat h2">WARM</span> 2〜5万</td><td>現実的な金額と証拠の公開で、飽和した金額系タイトルの中でも差別化できる</td></tr>
+        <tr><td>7</td><td><b>ココナラ×ChatGPT/Claudeで初受注するまで完全再現</b></td><td class="num"><span class="heat h2">WARM</span> 1.5〜4万</td><td>受注までを描く競合が少ない。保存されやすく、繰り返し見られる</td></tr>
+        <tr><td>8</td><td><b>ノーコード＋AIで副業を自動化：ワークフロー全公開</b></td><td class="num"><span class="heat h1">STEADY</span> 1〜3万</td><td>視聴者は少ないが熱量が高く、チャンネル登録につながりやすい</td></tr>
+        <tr><td>9</td><td><b>AIで本業を2時間短縮して、その時間で副業する方法</b></td><td class="num"><span class="heat h1">STEADY</span> 1〜3万</td><td>「時間がない」という悩みを解決する。視聴者層を広げられる</td></tr>
+        <tr><td>10</td><td><b>AI画像・動画生成で稼ぐ方法の実態</b></td><td class="num"><span class="heat h1">STEADY</span> 1〜2万</td><td>競合は多いが、「リアル」「実態」と正直さを打ち出せば勝てる</td></tr>
+      </tbody>
+    </table></div>
+    <div class="prio">
+      <div><b>FIRST 3</b>まず撮るのは、#2（時事ネタ）、#3（流入の入り口）、#1（看板シリーズ）の3本</div>
+      <div><b>SERIES</b>#1と#6は「検証」「全記録」シリーズとして毎週更新できる</div>
+      <div><b>SHORTS</b>#3は1位だけを見せる、#4は手口を1つずつ紹介する</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>DIFFERENTIATION</span><span class="who">by JIN</span></div>
+  <div class="pb">
+    <h2><small>04</small>差別化ポイント</h2>
+    <div class="grid2">
+      <div class="card"><h3>証拠主義</h3><p>収益画面、作業時間、ツール代をすべて公開します。「稼げる」ではなく「稼げた／稼げなかった」で語ります。</p></div>
+      <div class="card"><h3>失敗も公開する</h3><p>「やってみたけど0円だった副業」もコンテンツになり、信頼の獲得に直結します。</p></div>
+      <div class="card"><h3>AIエージェントの先取り</h3><p>競合がChatGPT単体を扱う中で、エージェントや自動化を使った「次のAI副業」を見せます。</p></div>
+      <div class="card"><h3>規約に詳しい立場をとる</h3><p>収益化ポリシー、著作権、AIの開示ラベルを毎回押さえ、安心して見られるチャンネルにします。</p></div>
+      <div class="card"><h3>会社員目線を貫く</h3><p>「専業で月100万」ではなく「本業を続けながら月5万」。視聴者と同じ立場で発信します。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>TITLE / THUMBNAIL DRAFTS</span><span class="who">by JIN</span></div>
+  <div class="pb">
+    <h2><small>05</small>タイトル案・サムネ案</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>#</th><th>タイトル案</th><th>サムネ案</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>①AIエージェントに副業を1ヶ月丸投げした結果…<br>②人間は何もしない。AIだけで副業したらいくら稼げる？</td><td><span class="thumb">放置で¥？？？</span><br>ロボットの横で寝ている人物。金額は伏せる</td></tr>
+        <tr><td>2</td><td>①AI量産チャンネルはもう終わり？YouTube新ルールで稼げなくなる人・稼げる人<br>②【警告】AIで作った動画、収益化停止されます</td><td><span class="thumb">収益化停止</span><br>赤い警告マーク、YouTube画面に×印、真剣な顔</td></tr>
+        <tr><td>3</td><td>①AIで消える副業・残る副業ランキング【2026年最新】<br>②その副業、来年なくなります。AI時代に残る副業TOP5</td><td><span class="thumb">消える副業</span><br>左は崩れていく灰色の職業アイコン、右は光る職業アイコン</td></tr>
+        <tr><td>4</td><td>①「AIで月100万」は嘘です。情報商材の見分け方5選<br>②AI副業詐欺の手口、全部バラします</td><td><span class="thumb">それ詐欺です</span><br>札束に大きな×印、指をさす人物</td></tr>
+        <tr><td>5</td><td>①初期費用0円・1日30分で始めるAI副業ロードマップ【2026年版】<br>②AI副業、何から始める？これだけやればOKな5ステップ</td><td><span class="thumb">0円で始める</span><br>階段状のロードマップ、スマホを持つ人物</td></tr>
+        <tr><td>6</td><td>①会社員がAI副業で月5万稼ぐまでの全記録【収益公開】<br>②AI副業3ヶ月、正直に収益を公開します</td><td><span class="thumb">全部見せます</span><br>右肩上がりの収益グラフとぼかした収益画面</td></tr>
+        <tr><td>7</td><td>①ココナラ×AIで初受注するまで完全再現してみた<br>②スキルなしでもOK。AIで最初の1件を取る方法</td><td><span class="thumb">初受注！</span><br>受注の通知画面と喜ぶ人物</td></tr>
+        <tr><td>8</td><td>①副業を自動化するAIワークフロー全公開<br>②寝てる間にAIが働く仕組みの作り方</td><td><span class="thumb">全自動</span><br>ネオン調でつながったノード図</td></tr>
+        <tr><td>9</td><td>①AIで本業を2時間短縮して、その時間で副業する方法<br>②定時で帰って副業する会社員のAI活用術</td><td><span class="thumb">毎日2時間浮く</span><br>時計のアイコンとPC作業する人物</td></tr>
+        <tr><td>10</td><td>①AI画像・動画で稼ぐのは本当に可能？リアルな収益を公開<br>②AI画像販売、3ヶ月やってみたリアル</td><td><span class="thumb">リアルな収益</span><br>AI生成画像を並べ、中央に金額</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="ph"><span>RISK / COMPLIANCE</span><span class="who">by NOVA</span></div>
+  <div class="pb">
+    <h2><small>06</small>注意点・リスク</h2>
+    <ul class="warn">
+      <li>テキストから生成したクリップだけの動画や、定型の画像に自動音声を乗せただけの動画は、収益化を止められるおそれがあります。独自の解説と視点を必ず入れてください。</li>
+      <li>AIで作った音声や映像を使う場合は、開示ラベルが必要になることがあります。</li>
+      <li>「誰でも簡単に稼げる」という表現は避けてください。景品表示法やYouTubeのスパムポリシーに触れるおそれがあります。</li>
+      <li>このレポートは公開記事と調査レポートをもとにしています。個別の動画の再生数は実測していません。公開前に YouTube Studio や vidIQ で裏付けを取ってください。</li>
+    </ul>
+  </div>
+</section>
+
+<section class="panel src">
+  <div class="ph"><span>SOURCES</span><span class="who">by NOVA</span></div>
+  <div class="pb">
+    <ul>
+      <li><a href="https://kai-you.net/article/95994">YouTubeが収益化ポリシーを改訂（KAI-YOU）</a></li>
+      <li><a href="https://betanews.com/2025/07/10/youtube-is-fighting-ai-slop-with-new-monetization-guidelines/">YouTube is fighting AI slop（BetaNews）</a></li>
+      <li><a href="https://cined.com/youtube-set-to-crack-down-on-ai-slop-with-monetization-policy-update">YouTube set to crack down on AI slop（CineD）</a></li>
+      <li><a href="https://dxmagazine.jp/?p=210495">生成AI時代における会社員の副業実態調査（DX Magazine）</a></li>
+      <li><a href="https://webtan.impress.co.jp/r/prtimes/items/000000032.000151822">副業会社員とAIに関する調査（Web担当者Forum）</a></li>
+      <li><a href="https://news.mynavi.jp/article/20260719-4700912/">会社員のAI活用と転職・副業（マイナビニュース）</a></li>
+      <li><a href="https://genai-ai.co.jp/ai-kanri/blog/cc-youtube-ai-side-business/">YouTubeのAI副業で稼ぐには（GenAI）</a></li>
+      <li><a href="https://aipicks.jp/mag/what-is-ai-side-hustle-2026">AI副業とは？2026年版（AIPicks）</a></li>
+      <li><a href="https://vidiq.com/es/blog/post/profitable-ai-niches-youtube/">The 8 Most Profitable AI Niches for YouTube in 2026（vidIQ）</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>NEON-RESEARCH DIV. // generated by AI staff // CASE YT-0001</footer>
+</div>

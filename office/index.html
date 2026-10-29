@@ -1,0 +1,589 @@
+<title>NEON-RESEARCH オフィス</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700&family=Share+Tech+Mono&display=swap">
+<style>
+/* Layout: HUD bar; left = office floor (fluffy UMA staff at holo stations over a living skyline that follows JST time), right = dispatch terminal, profile, activity log. Stacks on phones. */
+:root{
+  --bg:#05040b; --panel:rgba(12,10,26,.84); --line:#2b2650; --fg:#ece9f8; --muted:#958fb6;
+  --pink:#ff2e88; --cyan:#19e3f0; --amber:#ffc23d; --violet:#b18cff; --orange:#ff8a3d; --mint:#5cf2b0; --red:#ff4d5e;
+  --f-display:"Chakra Petch","DotGothic16",system-ui,sans-serif;
+  --f-game:"DotGothic16","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  --f-round:"Zen Maru Gothic","Hiragino Maru Gothic ProN",system-ui,sans-serif;
+  --f-mono:"Share Tech Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-game);font-size:14px;overflow-x:hidden}
+#city{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.scan{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px)}
+.app{position:relative;z-index:2;max-width:1380px;margin:0 auto;padding-block:14px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:14px}
+
+/* HUD */
+.hud{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;border:1px solid var(--line);background:var(--panel);padding:10px 16px;backdrop-filter:blur(5px)}
+.logo{font-family:var(--f-display);font-weight:700;font-size:clamp(18px,3vw,26px);letter-spacing:.06em;text-shadow:0 0 10px var(--pink),0 0 24px rgba(255,46,136,.5)}
+.logo span{color:var(--cyan);text-shadow:0 0 10px var(--cyan)}
+.logo small{display:block;font-family:var(--f-mono);font-size:11px;font-weight:400;letter-spacing:.2em;color:var(--muted);text-shadow:none}
+.hudr{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.hudr b{color:var(--cyan);font-weight:400;font-variant-numeric:tabular-nums}
+.mode{padding:2px 8px;border:1px solid var(--muted);color:var(--muted)}
+.mode.live{border-color:var(--mint);color:var(--bg);background:var(--mint);box-shadow:0 0 12px rgba(92,242,176,.6)}
+.tod{display:flex;border:1px solid var(--line)}
+.tod button{font-family:var(--f-mono);font-size:11px;color:var(--muted);background:transparent;border:0;padding:3px 8px;cursor:pointer}
+.tod button[aria-pressed="true"]{color:var(--bg);background:var(--amber)}
+.tod button:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
+#shift{color:var(--amber)}
+
+.main{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:14px;align-items:start}
+@media (max-width:1000px){.main{grid-template-columns:minmax(0,1fr)}}
+
+/* Floor */
+.floor{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(10,8,24,.25),rgba(10,8,24,.78) 45%);padding:18px;min-width:0}
+.sec-h{font-family:var(--f-mono);font-weight:400;font-size:12px;letter-spacing:.18em;color:var(--muted);margin:0 0 12px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sec-h em{font-style:normal;color:var(--amber)}
+.pods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;position:relative}
+@media (max-width:660px){.pods{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+.pod{--c:var(--cyan);position:relative;border:1px solid color-mix(in srgb,var(--c) 38%,transparent);background:linear-gradient(180deg,color-mix(in srgb,var(--c) 6%,transparent),rgba(5,4,11,.62));padding:12px 12px 10px;cursor:pointer;display:grid;gap:8px;transition:box-shadow .3s,border-color .3s;min-width:0;text-align:left;color:inherit;font:inherit}
+.pod:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+.pod:hover{border-color:var(--c)}
+.pod.working{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 0 26px color-mix(in srgb,var(--c) 45%,transparent),inset 0 0 30px color-mix(in srgb,var(--c) 12%,transparent)}
+.pod.error{border-color:var(--red);box-shadow:0 0 18px rgba(255,77,94,.5)}
+.pod.boss{grid-column:1/-1;grid-template-columns:220px 1fr;align-items:center;column-gap:18px}
+@media (max-width:660px){.pod.boss{grid-template-columns:1fr}}
+.tag{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.name{font-family:var(--f-display);font-weight:700;font-size:18px;letter-spacing:.08em;color:var(--c);text-shadow:0 0 8px var(--c)}
+.role{font-size:12px;color:var(--muted)}
+.role span{font-family:var(--f-mono)}
+.st{font-family:var(--f-mono);font-size:11px;padding:1px 7px;border:1px solid var(--muted);color:var(--muted);white-space:nowrap}
+.pod.working .st{border-color:var(--c);color:var(--bg);background:var(--c);animation:blink 1s steps(2) infinite}
+.pod.done .st{border-color:var(--mint);color:var(--mint)}
+.pod.error .st{border-color:var(--red);color:var(--red)}
+@keyframes blink{50%{opacity:.55}}
+.stage{position:relative;height:178px}
+.screen{position:absolute;top:0;left:6%;right:6%;height:40px;border:1px solid color-mix(in srgb,var(--c) 70%,transparent);background:color-mix(in srgb,var(--c) 10%,rgba(0,0,0,.72));box-shadow:0 0 16px color-mix(in srgb,var(--c) 35%,transparent);overflow:hidden;font-family:var(--f-mono);font-size:9px;line-height:10px;color:var(--c);padding:3px 5px;opacity:.5;transition:opacity .3s}
+.pod.working .screen{opacity:1}
+.screen div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+canvas.av{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:120px;height:132px}
+.ring{position:absolute;left:50%;bottom:2px;width:110px;height:18px;transform:translateX(-50%);border-radius:50%;border:1px solid color-mix(in srgb,var(--c) 70%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--c) 55%,transparent),inset 0 0 12px color-mix(in srgb,var(--c) 40%,transparent)}
+.bubble{position:absolute;z-index:5;top:72px;left:50%;transform:translate(-50%,-100%);max-width:96%;width:max-content;font-family:var(--f-round);font-weight:500;font-size:12px;line-height:1.45;background:#fffaf2;color:#231c35;border:2px solid #231c35;border-radius:14px;padding:5px 10px;box-shadow:0 0 0 2px var(--c),0 0 14px color-mix(in srgb,var(--c) 55%,transparent);opacity:0;pointer-events:none;transition:opacity .25s;overflow-wrap:anywhere}
+.bubble.show{opacity:1}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-7px;width:10px;height:10px;background:#fffaf2;border-right:2px solid #231c35;border-bottom:2px solid #231c35;transform:translateX(-50%) rotate(45deg)}
+.out{font-family:var(--f-mono);font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{height:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--c);box-shadow:0 0 8px var(--c);transition:width .4s linear}
+.bar.indet i{width:35%;animation:indet 1.2s ease-in-out infinite}
+@keyframes indet{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+.pod.hire{--c:var(--muted);cursor:default;border-style:dashed;place-content:center;text-align:center;min-height:200px}
+.pod.hire .name{text-shadow:none;font-size:15px}
+.bossinfo{display:grid;gap:8px;min-width:0}
+.bossinfo .now{font-family:var(--f-round);font-size:13px;color:var(--fg);min-height:1.4em}
+.packet{position:absolute;z-index:6;width:12px;height:12px;border-radius:50%;pointer-events:none;box-shadow:0 0 12px 3px currentColor;background:currentColor;transition:transform .9s cubic-bezier(.6,.1,.3,1),opacity .3s}
+
+/* Side */
+.side{display:grid;gap:14px;min-width:0}
+.box{border:1px solid var(--line);background:var(--panel);padding:14px 16px;backdrop-filter:blur(5px);min-width:0}
+form{display:grid;gap:10px}
+label{display:grid;gap:4px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--cyan)}
+input,textarea{width:100%;font-family:var(--f-game);font-size:14px;color:var(--fg);background:rgba(0,0,0,.5);border:1px solid var(--line);padding:8px 10px}
+textarea{resize:vertical;min-height:52px}
+input:focus,textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 10px rgba(25,227,240,.35)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button.go{flex:1 1 auto;font-family:var(--f-display);font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--bg);background:var(--pink);border:0;padding:11px 14px;cursor:pointer;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);box-shadow:0 0 18px rgba(255,46,136,.6)}
+button.go:disabled{opacity:.45;cursor:wait}
+button.ghost{font-family:var(--f-mono);font-size:12px;color:var(--cyan);background:transparent;border:1px solid var(--cyan);padding:8px 12px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.hint{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
+.hint code{font-family:var(--f-mono);color:var(--amber);word-break:break-all}
+.hint.err{color:var(--red)}
+.result{border:1px solid var(--mint);padding:10px 12px;display:grid;gap:6px;background:rgba(92,242,176,.06)}
+.result.bad{border-color:var(--red);background:rgba(255,77,94,.06)}
+.result b{font-family:var(--f-display);color:var(--mint);letter-spacing:.1em}
+.result.bad b{color:var(--red)}
+.result a{color:var(--cyan)}
+.log ol{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:280px;overflow:auto;font-family:var(--f-mono);font-size:12px}
+.log li{display:grid;grid-template-columns:auto auto 1fr;gap:8px;align-items:baseline}
+.log li.dim .msg{color:var(--muted)}
+.log li.bad .msg{color:var(--red)}
+.log time{color:var(--muted);font-variant-numeric:tabular-nums}
+.log .who{font-weight:700}
+.log .msg{font-family:var(--f-game);color:var(--fg);min-width:0;overflow-wrap:anywhere}
+.card h3{margin:0;font-family:var(--f-display);font-size:20px;color:var(--c,var(--cyan));text-shadow:0 0 8px var(--c,var(--cyan))}
+.card h3 span{font-size:13px;color:var(--muted);text-shadow:none;font-family:var(--f-game)}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:10px 0 0;font-size:13px}
+.card dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--muted);padding-top:2px}
+.card dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.card dd code{font-family:var(--f-mono);color:var(--amber)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<canvas id="city" aria-hidden="true"></canvas>
+<div class="scan" aria-hidden="true"></div>
+
+<div class="app">
+  <header class="hud">
+    <div class="logo">NEON<span>-</span>RESEARCH <span>DIV.</span><small>YOUTUBE THEME INTELLIGENCE · 第七区 ネオン街 42F</small></div>
+    <div class="hudr">
+      <span class="mode" id="mode">DEMO</span>
+      <span id="shift">NIGHT SHIFT</span>
+      <div class="tod" role="group" aria-label="時間帯">
+        <button type="button" data-h="auto" aria-pressed="true">AUTO</button><button type="button" data-h="6.3" aria-pressed="false">朝</button><button type="button" data-h="12" aria-pressed="false">昼</button><button type="button" data-h="17.6" aria-pressed="false">夕</button><button type="button" data-h="22" aria-pressed="false">夜</button>
+      </div>
+      <span>ACTIVE <b id="hActive">0</b></span>
+      <span>CASES <b id="hDone">1</b></span>
+      <span><b id="clock">--:--</b> JST</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <section class="floor" aria-label="オフィスフロア">
+      <h2 class="sec-h"><span>// OFFICE FLOOR 42F</span><em id="caseLabel">STANDBY</em></h2>
+      <div class="pods" id="pods"></div>
+    </section>
+
+    <aside class="side">
+      <section class="box" aria-label="依頼ターミナル">
+        <h2 class="sec-h"><span>// DISPATCH TERMINAL</span><em>ZERO宛て</em></h2>
+        <form id="f">
+          <label for="genre">ジャンル
+            <input id="genre" value="AI活用・副業" required>
+          </label>
+          <label for="target">ターゲット（空欄ならZEROが決めます）
+            <input id="target" value="20〜40代の会社員" placeholder="例：30代の子育てママ">
+          </label>
+          <label for="extra">追加条件（任意）
+            <textarea id="extra" placeholder="例：Shorts中心、顔出しなし"></textarea>
+          </label>
+          <div class="btns">
+            <button class="go" id="goBtn" type="submit">DISPATCH ▶</button>
+            <button class="ghost" id="copyBtn" type="button">指令文をコピー</button>
+          </div>
+          <p class="hint" id="hint">デモモードです。DISPATCHを押すと、社員の動きを再生します。ローカルでサーバーを起動すると LIVE モードに切り替わり、AI社員が本当にリサーチを実行します。</p>
+        </form>
+      </section>
+      <section class="box card" id="profile" aria-live="polite"></section>
+      <section class="box log" aria-label="アクティビティログ">
+        <h2 class="sec-h"><span>// ACTIVITY LOG</span><em>activity.jsonl</em></h2>
+        <ol id="log"></ol>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script>
+/* ================= staff ================= */
+const STAFF = [
+  {id:"ZERO", role:"指令室長", c:"--amber", skill:"yt-research-director", out:"report.html 納品", boss:true,
+   bio:"夜の路地に棲む影のUMA。トゲのたてがみと金のバイザーで全員を見張る。依頼を受けて前提を決め、仕事を割り振り、品質チェックをして納品する。",
+   look:{rim:true,fur:"#22212b",hatch:"#4a4858",rx:36,ry:40,top:"spikes",eyes:"visor",glow:"#ffc23d",shoe:"#ffc23d",mouth:"grin"}},
+  {id:"NOVA", role:"トレンド調査", c:"--cyan", skill:"yt-trend-scout", out:"01_trends.md",
+   bio:"雪山の電波塔に住んでいた白いモコモコ。頭のパラボラで世界中のトレンドを受信する。",
+   look:{fur:"#eef2f7",hatch:"#aab6c8",rx:34,ry:34,top:"dish",eyes:"round",pupil:"#1a3a8f",glow:"#19e3f0",shoe:"#2a3a8a",mouth:"o"}},
+  {id:"VEX", role:"競合分析", c:"--pink", skill:"yt-competitor-analyst", out:"02_competitors.md",
+   bio:"ネオン街の看板裏に出るピンクの小悪魔。競合の弱点をかぎつけるのが得意。",
+   look:{fur:"#ff6fae",hatch:"#c23f7c",rx:32,ry:33,top:"horns",eyes:"sly",glow:"#ff2e88",shoe:"#1b1a22",mouth:"tongue"}},
+  {id:"MIRA", role:"ターゲット分析", c:"--violet", skill:"yt-audience-profiler", out:"03_audience.md",
+   bio:"たれ耳のラベンダー色の毛玉。ねむそうに見えて、人の気持ちを誰よりも読む。",
+   look:{fur:"#cdbcff",hatch:"#8f78d6",rx:33,ry:32,top:"ears",eyes:"sleepy",glow:"#b18cff",shoe:"#4b3a8f",mouth:"w"}},
+  {id:"JIN", role:"企画立案", c:"--orange", skill:"yt-theme-planner", out:"04_themes.md",
+   bio:"森から上京した背高のっぽ。キャップを後ろにかぶると企画が止まらなくなる。",
+   look:{fur:"#d9773a",hatch:"#8e4a1f",rx:31,ry:42,top:"cap",eyes:"round",pupil:"#111",glow:"#ff8a3d",shoe:"#19e3f0",mouth:"grin",brows:true}},
+  {id:"PIXEL", role:"資料作成", c:"--mint", skill:"yt-report-designer", out:"report.html",
+   bio:"宇宙から落ちてきたミント色のちびUMA。触角からネオンを出してレポートを光らせる。",
+   look:{fur:"#a6f5d3",hatch:"#4fb48c",rx:30,ry:29,top:"antennae",eyes:"alien",glow:"#5cf2b0",shoe:"#ff2e88",mouth:"o"}}
+];
+const FLOW = {NOVA:["ZERO"],VEX:["ZERO"],MIRA:["ZERO"],JIN:["NOVA","VEX","MIRA"],PIXEL:["JIN"]};
+const SAMPLE_REPORT = "https://claude.ai/artifact/JK5TSN2mQb2ewPXuQ89HPw";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const S = id => STAFF.find(x=>x.id===id);
+let LIVE=false, hourOverride=null;
+
+/* ================= hand-drawn fluffy creatures ================= */
+const INK="#16131f";
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function fluff(g,cx,cy,rx,ry,n,puff,R,fill,lw){
+  g.beginPath();
+  const pt=a=>[cx+Math.cos(a)*rx,cy+Math.sin(a)*ry];
+  let [x0,y0]=pt(0); g.moveTo(x0,y0);
+  for(let i=0;i<n;i++){
+    const a0=i/n*Math.PI*2, a1=(i+1)/n*Math.PI*2, am=(a0+a1)/2;
+    const k=1+puff+(R()-.5)*.1;
+    const [x1,y1]=pt(a1);
+    g.quadraticCurveTo(cx+Math.cos(am)*rx*k,cy+Math.sin(am)*ry*k,x1,y1);
+  }
+  g.closePath(); g.fillStyle=fill; g.fill();
+  g.lineWidth=lw; g.strokeStyle=INK; g.lineJoin="round"; g.stroke();
+}
+function hatch(g,cx,cy,rx,ry,R,color,count){
+  g.strokeStyle=color; g.lineWidth=1.3; g.lineCap="round";
+  for(let i=0;i<count;i++){
+    const a=R()*Math.PI*2, r=Math.sqrt(R())*.78;
+    const x=cx+Math.cos(a)*rx*r, y=cy+Math.sin(a)*ry*r, s=3+R()*3;
+    g.beginPath(); g.arc(x,y,s,Math.PI*(.15+R()*.2),Math.PI*(.85+R()*.2)); g.stroke();
+  }
+}
+function drawCreature(cv,p,t){
+  const dpr=Math.min(2,window.devicePixelRatio||1), W=120, H=132;
+  if(cv.width!==W*dpr){cv.width=W*dpr;cv.height=H*dpr;}
+  const g=cv.getContext("2d"); g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,W,H);
+  const L=p.look, working=p.state==="working";
+  const boil=reduce?0:Math.floor(t/(working?120:220));
+  const R=rng(p.seed*977+boil);
+  const asleep=p.state==="idle"&&isLateNight();
+  const bob=reduce?0:(working?Math.sin(t/110)*2:Math.sin(t/800)*1.4);
+  const cx=60, rx=L.rx, ry=L.ry, cy=124-ry-22+bob;
+  // legs
+  const legTop=cy+ry*.72, floorY=124;
+  g.lineCap="round"; g.strokeStyle=INK; g.lineWidth=3.6;
+  [-1,1].forEach((s,i)=>{
+    const lift=working&&!reduce&&((Math.floor(t/180)+i)%2)?3:0;
+    g.beginPath(); g.moveTo(cx+s*11,legTop); g.lineTo(cx+s*12+(R()-.5)*1.2,floorY-lift); g.stroke();
+    g.beginPath(); g.ellipse(cx+s*14,floorY+1-lift,7.5,4.2,0,0,Math.PI*2); g.fillStyle=L.shoe; g.fill(); g.lineWidth=2; g.stroke(); g.lineWidth=3.6;
+  });
+  // arms (behind body edge)
+  [-1,1].forEach((s,i)=>{
+    const swing=working&&!reduce?Math.sin(t/90+i*Math.PI)*5:0;
+    const ax=cx+s*(rx*.92), ay=cy+ry*.18+swing;
+    g.save(); g.translate(ax,ay); g.rotate(s*(working?-.6:.25));
+    fluff(g,0,0,8,13,9,.22,R,L.fur,2.2); g.restore();
+  });
+  // body (dark fur gets a neon rim so it reads at night)
+  if(L.rim){g.shadowColor=L.glow;g.shadowBlur=working?16:9;}
+  fluff(g,cx,cy,rx,ry,24,.17,R,L.fur,2.7); g.shadowBlur=0;
+  hatch(g,cx,cy+4,rx,ry,R,L.hatch,16);
+  // top features
+  drawTop(g,L,cx,cy,rx,ry,R,t,working);
+  // face
+  const ey=cy-ry*.12;
+  drawEyes(g,L,cx,ey,R,t,working,asleep);
+  drawMouth(g,L,cx,ey+16);
+  if(L.brows&&!asleep){g.strokeStyle=INK;g.lineWidth=2.4;[-1,1].forEach(s=>{g.beginPath();g.moveTo(cx+s*6,ey-14-(working?2:0));g.lineTo(cx+s*17,ey-12);g.stroke();});}
+  // state garnish
+  if(asleep&&!reduce){const z=(t/900)%1; g.fillStyle="rgba(236,233,248,"+(1-z)+")"; g.font="bold 13px 'Zen Maru Gothic',sans-serif"; g.fillText("z",cx+rx-2+z*8,cy-ry+4-z*16); g.font="bold 10px 'Zen Maru Gothic',sans-serif"; g.fillText("z",cx+rx+8+z*6,cy-ry-8-z*12);}
+  if(p.state==="done"){g.fillStyle=L.glow; [[-rx-6,-ry+6],[rx+4,-ry+12],[rx-2,-ry-6]].forEach(([dx,dy],i)=>{const s=reduce?3:2.5+Math.sin(t/200+i)*1.2; star(g,cx+dx,cy+dy,s);});}
+}
+function star(g,x,y,s){g.beginPath();for(let i=0;i<8;i++){const r=i%2?s*.4:s*1.6,a=i/8*Math.PI*2;g.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);}g.closePath();g.fill();}
+function drawTop(g,L,cx,cy,rx,ry,R,t,working){
+  const top=cy-ry; g.strokeStyle=INK; g.lineWidth=2.4; g.lineCap="round";
+  if(L.top==="spikes"){
+    g.fillStyle=L.fur; g.beginPath(); g.moveTo(cx-20,top+8);
+    for(let i=0;i<5;i++){const x=cx-20+i*10;g.lineTo(x+5+(R()-.5)*2,top-9-(i%2?4:0)-(R()*2));g.lineTo(x+10,top+6);} g.closePath(); g.fill(); g.stroke();
+  }else if(L.top==="dish"){
+    g.beginPath(); g.moveTo(cx+8,top+4); g.lineTo(cx+14,top-12); g.stroke();
+    g.save(); g.translate(cx+15,top-14); g.rotate(-.5+(working&&!reduce?Math.sin(t/300)*.4:0));
+    g.beginPath(); g.ellipse(0,0,11,5,0,0,Math.PI); g.closePath(); g.fillStyle="#d7dee9"; g.fill(); g.stroke();
+    g.beginPath(); g.arc(0,-1,2.6,0,Math.PI*2); g.fillStyle=L.glow; g.fill(); g.restore();
+  }else if(L.top==="horns"){
+    [-1,1].forEach(s=>{g.beginPath(); g.moveTo(cx+s*10,top+6); g.quadraticCurveTo(cx+s*18,top-4,cx+s*16,top-14); g.quadraticCurveTo(cx+s*13,top-2,cx+s*4,top+6); g.closePath(); g.fillStyle=INK; g.fill(); g.stroke();});
+  }else if(L.top==="ears"){
+    [-1,1].forEach(s=>{g.save(); g.translate(cx+s*(rx-4),cy-ry*.35); g.rotate(s*.5); fluff(g,0,10,7,16,8,.2,R,L.fur,2.2); g.restore();});
+  }else if(L.top==="cap"){
+    g.beginPath(); g.ellipse(cx,top+8,20,11,0,Math.PI,0); g.closePath(); g.fillStyle="#19e3f0"; g.fill(); g.stroke();
+    g.beginPath(); g.moveTo(cx-18,top+8); g.quadraticCurveTo(cx-32,top+6,cx-34,top+11); g.lineTo(cx-16,top+11); g.closePath(); g.fillStyle="#0e9fb0"; g.fill(); g.stroke();
+    g.fillStyle=INK; g.font="bold 9px 'Share Tech Mono',monospace"; g.fillText("J",cx-2,top+4);
+  }else if(L.top==="antennae"){
+    [-1,1].forEach((s,i)=>{const wob=reduce?0:Math.sin(t/260+i)*3; g.beginPath(); g.moveTo(cx+s*7,top+5); g.quadraticCurveTo(cx+s*12,top-10,cx+s*15+wob,top-18); g.stroke();
+      g.beginPath(); g.arc(cx+s*15+wob,top-20,4.5,0,Math.PI*2); g.fillStyle=L.glow; g.shadowColor=L.glow; g.shadowBlur=working?14:6; g.fill(); g.shadowBlur=0; g.lineWidth=2; g.stroke(); g.lineWidth=2.4;});
+  }
+}
+function drawEyes(g,L,cx,ey,R,t,working,asleep){
+  const blink=!reduce&&((t+L.rx*137)%4200)<130;
+  g.strokeStyle=INK; g.lineWidth=2.3;
+  if(asleep||blink){[-1,1].forEach(s=>{g.beginPath();g.arc(cx+s*11,ey,6,Math.PI*.15,Math.PI*.85);g.stroke();});return;}
+  if(L.eyes==="visor"){
+    g.beginPath(); g.roundRect(cx-24,ey-8,48,15,7); g.fillStyle="#0d0b14"; g.fill(); g.stroke();
+    g.shadowColor=L.glow; g.shadowBlur=12; g.fillStyle=L.glow;
+    const scan=working&&!reduce?Math.sin(t/200)*5:0;
+    [-1,1].forEach(s=>{g.beginPath(); g.roundRect(cx+s*11-5+scan,ey-3,10,5,2); g.fill();}); g.shadowBlur=0; return;
+  }
+  if(L.eyes==="alien"){
+    [-1,1].forEach(s=>{g.save(); g.translate(cx+s*10,ey); g.rotate(s*.45); g.beginPath(); g.ellipse(0,0,7,10,0,0,Math.PI*2); g.fillStyle=INK; g.fill();
+      g.fillStyle=L.glow; g.beginPath(); g.ellipse(-2,-3,2,3,0,0,Math.PI*2); g.fill(); g.restore();}); return;
+  }
+  const look=working?Math.sin(t/400)*2.5:0;
+  [-1,1].forEach(s=>{
+    const x=cx+s*11;
+    g.beginPath(); g.ellipse(x,ey,8.5,9.5,0,0,Math.PI*2); g.fillStyle="#fff"; g.fill(); g.stroke();
+    g.fillStyle=L.pupil||INK;
+    if(L.eyes==="sly"){g.beginPath(); g.ellipse(x+look+s*1,ey+1,4,5.5,0,0,Math.PI*2); g.fill(); g.fillStyle=L.fur; g.beginPath(); g.rect(x-10,ey-11,20,7); g.fill(); g.beginPath(); g.moveTo(x-9,ey-4); g.lineTo(x+9,ey-4+s*-2); g.stroke();}
+    else if(L.eyes==="sleepy"){g.beginPath(); g.ellipse(x+look,ey+2,4.5,4.5,0,0,Math.PI*2); g.fill(); g.fillStyle=L.fur; g.beginPath(); g.rect(x-10,ey-11,20,9); g.fill(); g.beginPath(); g.moveTo(x-8.5,ey-2); g.lineTo(x+8.5,ey-2); g.stroke();}
+    else {g.beginPath(); g.ellipse(x+look,ey+1,5,6,0,0,Math.PI*2); g.fill();}
+    g.fillStyle="#fff"; g.beginPath(); g.arc(x+look-1.5,ey-1.5,1.7,0,Math.PI*2); g.fill();
+  });
+}
+function drawMouth(g,L,cx,y){
+  g.strokeStyle=INK; g.lineWidth=2.2; g.fillStyle="#ff7f9e";
+  if(L.mouth==="tongue"){g.beginPath(); g.moveTo(cx-6,y); g.quadraticCurveTo(cx,y+3,cx+6,y); g.stroke(); g.beginPath(); g.ellipse(cx+1,y+4,3.5,4,0,0,Math.PI); g.fill(); g.stroke();}
+  else if(L.mouth==="o"){g.beginPath(); g.ellipse(cx,y+1,3,3.5,0,0,Math.PI*2); g.fill(); g.stroke();}
+  else if(L.mouth==="w"){g.beginPath(); g.moveTo(cx-6,y); g.quadraticCurveTo(cx-3,y+4,cx,y); g.quadraticCurveTo(cx+3,y+4,cx+6,y); g.stroke();}
+  else {g.beginPath(); g.moveTo(cx-7,y-1); g.quadraticCurveTo(cx,y+6,cx+7,y-1); g.closePath(); g.fill(); g.stroke();}
+}
+
+/* ================= build floor ================= */
+const podsEl=document.getElementById("pods");
+const CODE=["> search --q","GET /trend 200","parse(json)","rank.sort()","ctr≈0.071","fetch srcs[5]","diff(comp)","heat:HOT","emit md →","render <tbl>","grep 'AI'","vec.embed()"];
+STAFF.forEach((p,idx)=>{
+  const b=document.createElement("button");
+  b.type="button"; b.className="pod"+(p.boss?" boss":""); b.id="pod-"+p.id;
+  b.style.setProperty("--c",`var(${p.c})`);
+  b.innerHTML=`<div class="stage"><div class="screen"></div><div class="ring"></div><canvas class="av" width="120" height="132"></canvas><div class="bubble"></div></div>
+    <div class="${p.boss?"bossinfo":""}" style="display:grid;gap:6px;min-width:0">
+      <div class="tag"><span class="name">${p.id}</span><span class="st">IDLE</span></div>
+      <div class="role">${p.role} · <span>${p.skill}</span></div>
+      ${p.boss?'<div class="now" id="bossNow">待機中。依頼をお待ちしています。</div>':""}
+      <div class="bar"><i></i></div>
+      <div class="out">OUT ▸ ${p.out}</div>
+    </div>`;
+  b.addEventListener("click",()=>showProfile(p));
+  podsEl.appendChild(b);
+  Object.assign(p,{el:b,cv:b.querySelector("canvas"),scr:b.querySelector(".screen"),bub:b.querySelector(".bubble"),
+    st:b.querySelector(".st"),barBox:b.querySelector(".bar"),bar:b.querySelector(".bar i"),state:"idle",done:0,seed:idx+1,now:"待機中"});
+  for(let i=0;i<3;i++) pushScreen(p,CODE[(i*3+idx)%CODE.length]);
+});
+const hire=document.createElement("div"); hire.className="pod hire";
+hire.innerHTML=`<span class="name">+ NEW HIRE</span><span class="role">採用枠：次のAI社員<br>（例：台本ライター／サムネデザイナー）</span>`;
+podsEl.appendChild(hire);
+
+function pushScreen(p,txt){const d=document.createElement("div");d.textContent=txt;p.scr.appendChild(d);while(p.scr.children.length>3)p.scr.firstChild.remove();}
+function setState(p,s){
+  p.state=s; ["working","done","error"].forEach(k=>p.el.classList.toggle(k,s===k));
+  p.st.textContent={idle:"IDLE",working:"WORKING",done:"DONE",error:"ERROR"}[s];
+  p.barBox.classList.toggle("indet",s==="working"&&LIVE);
+  if(s==="idle")p.bar.style.width="0";
+  if(s==="done"){p.bar.style.width="100%";p.done++;}
+  document.getElementById("hActive").textContent=STAFF.filter(x=>x.state==="working").length;
+}
+function say(p,text,ms=3200){p.bub.textContent=text;p.bub.classList.add("show");clearTimeout(p._bt);p._bt=setTimeout(()=>p.bub.classList.remove("show"),ms);p.now=text;if(p.boss)document.getElementById("bossNow").textContent=text;}
+function packet(from,to){
+  if(reduce||!from||!to)return;
+  const host=podsEl.getBoundingClientRect(), a=from.cv.getBoundingClientRect(), b=to.cv.getBoundingClientRect();
+  const d=document.createElement("div"); d.className="packet"; d.style.color=css(from.c);
+  d.style.left=(a.left-host.left+a.width/2-6)+"px"; d.style.top=(a.top-host.top+a.height/2-6)+"px";
+  podsEl.appendChild(d);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{d.style.transform=`translate(${b.left-a.left}px,${b.top-a.top}px)`;}));
+  setTimeout(()=>{d.style.opacity="0";setTimeout(()=>d.remove(),300)},950);
+}
+
+/* creature animation loop (~30fps) */
+let lastDraw=0;
+function animate(t){
+  if(t-lastDraw>33){lastDraw=t; STAFF.forEach(p=>drawCreature(p.cv,p,t));}
+  if(!reduce)requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+setInterval(()=>STAFF.forEach(p=>{if(p.state==="working"&&!LIVE)pushScreen(p,CODE[Math.floor(Math.random()*CODE.length)]+" "+Math.random().toString(16).slice(2,7));}),400);
+
+/* ================= log & profile ================= */
+const logEl=document.getElementById("log");
+function log(id,msg,cls=""){
+  const p=S(id)||S("ZERO"); const li=document.createElement("li"); if(cls)li.className=cls;
+  li.innerHTML=`<time>${new Date().toTimeString().slice(0,8)}</time><span class="who" style="color:var(${p.c})">${S(id)?id:"SYS"}</span><span class="msg"></span>`;
+  li.querySelector(".msg").textContent=msg; logEl.prepend(li);
+  while(logEl.children.length>200)logEl.lastChild.remove();
+}
+let profileFor=STAFF[0];
+function showProfile(p){
+  profileFor=p; const el=document.getElementById("profile"); el.style.setProperty("--c",`var(${p.c})`);
+  el.innerHTML=`<h3>${p.id} <span>${p.role}</span></h3><p class="hint" style="margin-top:6px"></p>
+  <dl><dt>SKILL</dt><dd><code>.claude/skills/${p.skill}/</code></dd><dt>OUTPUT</dt><dd><code>${p.out}</code></dd>
+  <dt>STATUS</dt><dd>${p.st.textContent}</dd><dt>NOW</dt><dd class="nowtxt"></dd><dt>TASKS</dt><dd>${p.done+1} 件完了</dd></dl>`;
+  el.querySelector(".hint").textContent=p.bio; el.querySelector(".nowtxt").textContent=p.now;
+}
+
+/* ================= event handling (shared by LIVE and DEMO) ================= */
+const goBtn=document.getElementById("goBtn"), hint=document.getElementById("hint");
+let running=false, caseNo="";
+function handle(ev){
+  if(ev.type==="job"&&ev.status==="started"){
+    running=true; goBtn.disabled=true; goBtn.textContent="RUNNING…";
+    document.querySelector(".result")?.remove();
+    STAFF.forEach(p=>setState(p,"idle"));
+    caseNo="YT-"+String(1+Number(document.getElementById("hDone").textContent)).padStart(4,"0");
+    document.getElementById("caseLabel").textContent=`${caseNo} · ${ev.genre}`;
+    log("ZERO",`案件 ${caseNo}「${ev.genre}」を受け付けました`);
+  }else if(ev.type==="activity"){
+    const p=S(ev.agent); if(!p)return;
+    if(ev.status==="working"){ (FLOW[p.id]||[]).forEach(src=>packet(S(src),p)); setState(p,"working"); }
+    else if(ev.status==="done"){ if(p.id==="ZERO")packet(S("PIXEL"),p); setState(p,"done"); }
+    else if(ev.status==="error"){ setState(p,"error"); }
+    say(p,ev.msg); log(p.id,ev.msg,ev.status==="error"?"bad":"");
+    pushScreen(p,"> "+ev.msg);
+    if(profileFor===p)showProfile(p);
+  }else if(ev.type==="tool"){
+    const p=S(ev.agent)||S("ZERO");
+    say(p,ev.detail,2600); pushScreen(p,ev.detail); log(p.id,ev.detail,"dim");
+  }else if(ev.type==="result"){
+    log("ZERO",ev.ok?`処理完了（${ev.turns}ターン・推定 $${(ev.costUsd||0).toFixed(2)}）`:`処理が途中で止まりました（${ev.subtype}）`,ev.ok?"":"bad");
+  }else if(ev.type==="job"&&(ev.status==="finished"||ev.status==="error")){
+    if(ev.status==="error"){ log("ZERO",ev.error,"bad"); setState(S("ZERO"),"error"); }
+    finish(ev);
+  }
+}
+function finish(ev){
+  running=false; goBtn.disabled=false; goBtn.textContent="DISPATCH ▶";
+  STAFF.forEach(p=>{if(p.state==="working")setState(p,"idle");});
+  const r=document.createElement("div"); const ok=!!ev.report;
+  r.className="result"+(ok?"":" bad");
+  if(ok){
+    const n=document.getElementById("hDone"); n.textContent=Number(n.textContent)+1;
+    r.innerHTML=`<b>MISSION COMPLETE · ${caseNo}</b><span class="hint"></span><a target="_blank" rel="noopener">▶ レポートを開く</a>`;
+    r.querySelector(".hint").textContent=ev.note||`所要 ${ev.seconds??"-"} 秒。レポートが届きました。`;
+    r.querySelector("a").href=ev.report;
+  }else{
+    r.innerHTML=`<b>NO REPORT · ${caseNo}</b><span class="hint"></span>`;
+    r.querySelector(".hint").textContent=ev.note||"レポートが作られませんでした。アクティビティログでエラーを確認してください。";
+  }
+  document.getElementById("f").appendChild(r);
+}
+
+/* ================= DEMO playback ================= */
+const wait=ms=>new Promise(r=>setTimeout(r,reduce?Math.min(ms,120):ms));
+async function demo(genre,target){
+  const A=(agent,status,msg)=>handle({type:"activity",agent,status,msg});
+  const T=(agent,detail)=>handle({type:"tool",agent,detail});
+  handle({type:"job",status:"started",genre});
+  A("ZERO","working",`案件受付：「${genre}」`); await wait(1400);
+  say(S("ZERO"),target?`ターゲットは「${target}」に決定`:"ターゲットは私が仮置きします"); await wait(1400);
+  T("ZERO","スキル呼び出し：yt-trend-scout ほか2名"); await wait(700);
+  A("NOVA","working","トレンド調査を開始"); A("VEX","working","競合分析を開始"); A("MIRA","working","ターゲット分析を開始");
+  const steps=[["NOVA",`検索：${genre} YouTube 人気 2026`],["VEX",`検索：${genre} YouTube おすすめ チャンネル`],["MIRA","ペルソナを2人作成中"],
+    ["NOVA","検索：YouTube 収益化ポリシー AI 最新"],["VEX","「金額＋期間」の型は飽和"],["MIRA","関心マップ6軸が完成"],["NOVA","Write：01_trends.md"],["MIRA","Write：03_audience.md"],["VEX","Write：02_competitors.md"]];
+  for(const [i,[a,d]] of steps.entries()){T(a,d); S(a).bar.style.width=Math.min(95,(i+3)*10)+"%"; await wait(800);}
+  A("MIRA","done","ターゲット分析完了"); await wait(300); A("NOVA","done","トレンド調査完了"); await wait(300); A("VEX","done","競合分析完了"); await wait(800);
+  A("JIN","working","テーマ企画を開始"); await wait(1200);
+  for(const [i,d] of ["テーマ10案を生成","想定再生回数を算出","タイトル20案とサムネ案が完成","Write：04_themes.md"].entries()){T("JIN",d); S("JIN").bar.style.width=(i+1)*24+"%"; await wait(1100);}
+  A("JIN","done","テーマ企画完了"); await wait(700);
+  A("PIXEL","working","レポート作成を開始"); await wait(1000);
+  for(const d of ["ネオンを点灯中","Write：report.html"]){T("PIXEL",d); await wait(1100);}
+  A("PIXEL","done","レポート納品"); await wait(700);
+  T("ZERO","品質チェック：10項目"); await wait(1400);
+  A("ZERO","done","すべてクリア。納品します");
+  const isSample=genre==="AI活用・副業";
+  handle({type:"job",status:"finished",report:isSample?SAMPLE_REPORT:null,
+    note:isSample?"デモ再生が終わりました。この案件の実際のレポートを開けます。":`ここまではデモです。「${genre}」の本物のレポートは、LIVEモードか Claude Code（指令文をコピー）で作れます。`});
+}
+
+/* ================= dispatch ================= */
+document.getElementById("f").addEventListener("submit",async e=>{
+  e.preventDefault(); if(running)return;
+  const genre=document.getElementById("genre").value.trim(), target=document.getElementById("target").value.trim(), extra=document.getElementById("extra").value.trim();
+  if(!LIVE){demo(genre,target);return;}
+  hint.classList.remove("err");
+  try{
+    const res=await fetch("/api/dispatch",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({genre,target,extra})});
+    if(!res.ok){const j=await res.json().catch(()=>({}));hint.textContent=j.error||`依頼を送れませんでした（${res.status}）。`;hint.classList.add("err");return;}
+    hint.textContent="依頼を送りました。AI社員がリサーチ中です。1件あたり10〜20分ほどかかります。";
+  }catch{hint.textContent="サーバーに接続できません。server フォルダで npm start が動いているか確認してください。";hint.classList.add("err");}
+});
+document.getElementById("copyBtn").addEventListener("click",async()=>{
+  const g=document.getElementById("genre").value.trim(), t=document.getElementById("target").value.trim(), x=document.getElementById("extra").value.trim();
+  const cmd=`/yt-research-director ジャンル：${g}${t?` ／ ターゲット：${t}`:""}${x?` ／ 追加条件：${x}`:""}`;
+  hint.classList.remove("err");
+  try{await navigator.clipboard.writeText(cmd);hint.innerHTML="コピーしました。Claude Code に貼り付けてください。<br><code></code>";}
+  catch{hint.innerHTML="自動コピーできませんでした。下の文を選択してコピーしてください。<br><code></code>";}
+  hint.querySelector("code").textContent=cmd;
+});
+
+/* ================= LIVE connection (Agent SDK server) ================= */
+(async()=>{
+  try{
+    const res=await fetch("/api/status",{cache:"no-store"}); if(!res.ok)throw 0;
+    const st=await res.json(); if(!st.live)throw 0;
+    LIVE=true;
+    const m=document.getElementById("mode"); m.textContent="LIVE · AGENT SDK"; m.classList.add("live");
+    document.getElementById("hDone").textContent=st.reports.length;
+    hint.textContent=`LIVEモードです（${st.model}）。DISPATCHを押すと、AI社員が本当にリサーチを始めます。`;
+    if(st.running){running=true;goBtn.disabled=true;goBtn.textContent="RUNNING…";document.getElementById("caseLabel").textContent=`実行中 · ${st.genre}`;}
+    const es=new EventSource("/api/events");
+    es.onmessage=e=>{try{handle(JSON.parse(e.data));}catch{}};
+    es.onerror=()=>{m.textContent="LIVE · 再接続中";};
+    es.onopen=()=>{m.textContent="LIVE · AGENT SDK";};
+  }catch{/* stays in DEMO */}
+})();
+showProfile(STAFF[0]);
+log("ZERO","案件 YT-0001「AI活用・副業」は納品済みです");
+
+/* ================= time of day ================= */
+const KEYS=[ // hour, skyTop, skyMid, skyBot, bld0, bld1, bld2, win, neon, sun, moon, rain
+  [0,  "#06031a","#14072c","#05040b","#0d0b1f","#0a0918","#07060f",1,1,0,1,1],
+  [4.6,"#07041c","#160832","#08050f","#0d0b1f","#0a0918","#07060f",1,1,0,1,.8],
+  [6.2,"#3b2a6b","#ff7d7d","#ffc48a","#2a2142","#211a36","#18132a",.45,.55,.6,0,0],
+  [8,  "#5aa7d6","#a9c9e6","#f3c9d8","#4a4d72","#3a3d60","#2b2d4b",.12,.25,1,0,0],
+  [15.5,"#4e9bd0","#a6c3e3","#f6cfd1","#474a6e","#373a5d","#292b48",.15,.3,1,0,0],
+  [17.6,"#2b1556","#ff4f7b","#ffb066","#2c1d48","#22163b","#19102c",.55,.75,.6,0,.2],
+  [19.4,"#0b0522","#2a0b45","#0a0512","#0f0c23","#0b0a1b","#080611",.95,1,0,.8,.8],
+  [24, "#06031a","#14072c","#05040b","#0d0b1f","#0a0918","#07060f",1,1,0,1,1]
+];
+const hex=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const mix=(a,b,k)=>{const A=hex(a),B=hex(b);return`rgb(${A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(",")})`;};
+function jstHour(){const d=new Date(Date.now()+9*3600e3);return d.getUTCHours()+d.getUTCMinutes()/60;}
+function curHour(){return hourOverride??jstHour();}
+function isLateNight(){const h=curHour();return h>=0.5&&h<4.6;}
+function palette(h){
+  let i=0; while(i<KEYS.length-2&&h>=KEYS[i+1][0])i++;
+  const a=KEYS[i],b=KEYS[i+1],k=(h-a[0])/(b[0]-a[0]);
+  const P={}; ["top","mid","bot","b0","b1","b2"].forEach((n,j)=>P[n]=mix(a[j+1],b[j+1],k));
+  ["win","neon","sun","moon","rain"].forEach((n,j)=>P[n]=a[j+7]+(b[j+7]-a[j+7])*k);
+  return P;
+}
+function shiftName(h){return h<5?"MIDNIGHT SHIFT":h<7.5?"DAWN SHIFT":h<16?"DAY SHIFT":h<19?"DUSK SHIFT":"NIGHT SHIFT";}
+document.querySelectorAll(".tod button").forEach(b=>b.addEventListener("click",()=>{
+  hourOverride=b.dataset.h==="auto"?null:Number(b.dataset.h);
+  document.querySelectorAll(".tod button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+  tick(); if(reduce)drawCity(0);
+}));
+const clock=document.getElementById("clock");
+function tick(){const d=new Date(Date.now()+9*3600e3);clock.textContent=`${String(d.getUTCHours()).padStart(2,"0")}:${String(d.getUTCMinutes()).padStart(2,"0")}`;document.getElementById("shift").textContent=shiftName(curHour());}
+tick(); setInterval(tick,5000);
+
+/* ================= city backdrop ================= */
+const cv=document.getElementById("city"), g=cv.getContext("2d");
+let W,H,blds=[],drops=[],signs=[],cars=[];
+const SIGNS=["研究所","営業中","ネオン","AI","24H","電脳","UMA","酒場"];
+function buildCity(){
+  W=cv.width=innerWidth; H=cv.height=innerHeight; blds=[]; signs=[];
+  const R=rng(42);
+  for(let layer=0;layer<3;layer++){
+    let x=-20;
+    while(x<W){
+      const w=40+R()*90, h=H*(.25+R()*.45)*(1-layer*.18);
+      const win=[]; for(let yy=12;yy<h-10;yy+=11)for(let xx=6;xx<w-6;xx+=9)if(R()<.24)win.push([xx,yy,R()]);
+      blds.push({x,w,h,layer,win}); x+=w+4+R()*12;
+      if(layer===2&&R()<.35)signs.push({x:x-w/2,y:H-h+20+R()*60,t:SIGNS[Math.floor(R()*SIGNS.length)],c:["#ff2e88","#19e3f0","#ffc23d","#b18cff"][Math.floor(R()*4)],ph:R()*6});
+    }
+  }
+  drops=Array.from({length:Math.min(220,W/5)},()=>({x:Math.random()*W,y:Math.random()*H,v:6+Math.random()*8}));
+  cars=Array.from({length:7},(_,i)=>({x:Math.random()*W,y:H*(.12+Math.random()*.35),v:(.6+Math.random()*1.4)*(i%2?1:-1),c:i%3?"#ff2e88":"#19e3f0"}));
+}
+function drawCity(t){
+  const h=curHour(), P=palette(h);
+  const sky=g.createLinearGradient(0,0,0,H); sky.addColorStop(0,P.top); sky.addColorStop(.6,P.mid); sky.addColorStop(1,P.bot);
+  g.fillStyle=sky; g.fillRect(0,0,W,H);
+  if(P.sun>0){const k=Math.min(1,Math.max(0,(h-5.5)/(18.5-5.5))); const sx=W*(.1+.8*k), sy=H*(.55-.42*Math.sin(Math.PI*k));
+    const sg=g.createRadialGradient(sx,sy,0,sx,sy,120); sg.addColorStop(0,`rgba(255,236,190,${.9*P.sun})`); sg.addColorStop(.25,`rgba(255,190,140,${.45*P.sun})`); sg.addColorStop(1,"rgba(255,160,140,0)");
+    g.fillStyle=sg; g.fillRect(sx-120,sy-120,240,240); g.fillStyle=`rgba(255,246,220,${P.sun})`; g.beginPath(); g.arc(sx,sy,26,0,Math.PI*2); g.fill();}
+  if(P.moon>0){const mx=W*.82,my=H*.16; g.fillStyle=`rgba(240,236,255,${.85*P.moon})`; g.shadowColor="#b18cff"; g.shadowBlur=30; g.beginPath(); g.arc(mx,my,22,0,Math.PI*2); g.fill(); g.shadowBlur=0;
+    g.fillStyle=P.top; g.beginPath(); g.arc(mx+9,my-6,19,0,Math.PI*2); g.fill();}
+  cars.forEach(c=>{ if(!reduce){c.x+=c.v; if(c.x>W+20)c.x=-20; if(c.x<-20)c.x=W+20;}
+    g.fillStyle=c.c; g.shadowColor=c.c; g.shadowBlur=10; g.fillRect(c.x,c.y,10,2.5); g.shadowBlur=0;
+    g.fillStyle="rgba(255,255,255,.8)"; g.fillRect(c.v>0?c.x+10:c.x-2,c.y,2,2.5);});
+  blds.forEach(b=>{
+    g.fillStyle=P["b"+b.layer]; g.fillRect(b.x,H-b.h,b.w,b.h);
+    b.win.forEach(([xx,yy,r])=>{ if(r>P.win+.05&&r>.15)return; g.fillStyle=r<.5?`rgba(25,227,240,${(.15+b.layer*.1)*Math.max(.35,P.win)})`:`rgba(255,46,136,${(.12+b.layer*.1)*Math.max(.35,P.win)})`; g.fillRect(b.x+xx,H-b.h+yy,4,6);});
+  });
+  if(P.sun>.5){const haze=g.createLinearGradient(0,H*.45,0,H); haze.addColorStop(0,"rgba(255,200,215,0)"); haze.addColorStop(1,`rgba(255,190,205,${.25*P.sun})`); g.fillStyle=haze; g.fillRect(0,H*.45,W,H*.55);}
+  g.font="bold 22px 'DotGothic16',sans-serif"; g.textAlign="center";
+  signs.forEach(s=>{
+    const on=reduce||Math.sin(t/400+s.ph)>-.85;
+    g.shadowColor=s.c; g.shadowBlur=on?18*P.neon:0; g.globalAlpha=.35+.65*P.neon; g.fillStyle=on?s.c:"#2a2540";
+    [...s.t].forEach((ch,i)=>g.fillText(ch,s.x,s.y+i*24));
+  });
+  g.shadowBlur=0; g.globalAlpha=1;
+  if(P.rain>.05){g.strokeStyle=`rgba(150,180,255,${.25*P.rain})`; g.lineWidth=1; g.beginPath();
+    drops.forEach(d=>{g.moveTo(d.x,d.y); g.lineTo(d.x-2,d.y+d.v*1.6); if(!reduce){d.y+=d.v; d.x-=.6; if(d.y>H){d.y=-20; d.x=Math.random()*W;}}}); g.stroke();}
+}
+function cityLoop(t){drawCity(t); if(!reduce)requestAnimationFrame(cityLoop);}
+addEventListener("resize",()=>{buildCity(); if(reduce)drawCity(0);});
+buildCity(); requestAnimationFrame(cityLoop);
+if(reduce){setInterval(()=>STAFF.forEach(p=>drawCreature(p.cv,p,0)),500);}
+</script>
